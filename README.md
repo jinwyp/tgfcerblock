@@ -12,5 +12,7 @@
 4. 进入该插件设置 可以添加需要屏蔽的用户
 
 
+## 功能说明 Introduction 
+
 ![功能说明](https://github.com/jinwyp/tgfcerblock/blob/master/docs/readme.jpg?raw=true)
 
