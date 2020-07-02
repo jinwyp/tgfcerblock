@@ -13,3 +13,4 @@ function onclickButtonOption(event1) {
 
 
 buttonOption.addEventListener('click', onclickButtonOption, false);
+

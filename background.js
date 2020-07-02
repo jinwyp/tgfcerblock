@@ -1,27 +1,25 @@
-window.bears = {}
 
 
 
 // console.log("Chrome Extension background script running!")
 
+/*
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    // window.bears[request.url] = request.count
+    window.bears[request.url] = request.count
 })
 
 
 
-// Called when the user clicks on the browser action icon.
 chrome.browserAction.onClicked.addListener(function(tab) {
-    // chrome.tabs.create({url: 'popup.html'})
+    chrome.tabs.create({url: 'popup.html'})
 
-    // chrome.runtime.openOptionsPage(()=>{console.log("Chrome Extension Open Options page")});
+    chrome.runtime.openOptionsPage(()=>{console.log("Chrome Extension Open Options page")});
 });
 
 
 
 chrome.tabs.onActivated.addListener(  (currentTab) => {
-    /*
     chrome.tabs.get(currentTab.tabId, ( currentTabInfo) => {
         console.log("currentTabInfo: ", currentTabInfo.url);
 
@@ -37,10 +35,10 @@ chrome.tabs.onActivated.addListener(  (currentTab) => {
 
         }
     })
-    */
 
 })
 
 
+*/
 
 
