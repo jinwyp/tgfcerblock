@@ -12,7 +12,9 @@
     {
       "matches": [
         "https://club.tgfcer.com/thread*",
-        "https://wap.tgfcer.com/index.php?action=thread*"
+        "https://club.tgfcer.com/forum*",
+        "https://wap.tgfcer.com/index.php?action=thread*",
+        "https://wap.tgfcer.com/index.php?action=forum*"
       ],
       "js": ["content.js"]
     }

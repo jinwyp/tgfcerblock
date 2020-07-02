@@ -1,15 +1,25 @@
 
-const radio1Element = document.querySelector("#inlineRadio1");
-const radio2Element = document.querySelector("#inlineRadio2");
-const formElement = document.querySelector("#form");
+const postRadio1Element = document.querySelector("#postRadio1");
+const postRadio2Element = document.querySelector("#postRadio2");
+const postRadio3Element = document.querySelector("#postRadio3");
+
+const listRadio1Element = document.querySelector("#listRadio1");
+const listRadio2Element = document.querySelector("#listRadio2");
+const listRadio3Element = document.querySelector("#listRadio3");
+
+
 const buttonUserAdd = document.querySelector("#user-add");
 const inputUsername = document.querySelector("#username");
 
 const userListElement = document.querySelector("#user-list");
+
+
 let autoIncrement = 10000;
-let blockDisplayType = 1;
+let blockPostDisplayType = 1;
+let blockListDisplayType = 1;
 
 let blockUserList = [];
+
 
 // chrome.storage.sync.clear()
 
@@ -17,7 +27,8 @@ function saveChromeData(data) {
     const dataTemp = {
         tgfcerBlockUsers : blockUserList,
         tgfcerAutoIncrement: autoIncrement,
-        tgfcerBlockDisplayType: blockDisplayType
+        tgfcerBlockPostDisplayType: blockPostDisplayType,
+        tgfcerBlockListDisplayType: blockListDisplayType
     }
 
     chrome.storage.sync.set(dataTemp, function() {
@@ -34,7 +45,8 @@ function getChromeData() {
 
             blockUserList = result.tgfcerBlockUsers || [];
             autoIncrement = result.tgfcerAutoIncrement || 10000;
-            blockDisplayType = result.tgfcerBlockDisplayType || 1;
+            blockPostDisplayType = result.tgfcerBlockPostDisplayType || 1;
+            blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             setRadioValue();
             showList();
         } else {
@@ -43,20 +55,46 @@ function getChromeData() {
 }
 
 
+
+
 function setRadioValue() {
-    if (blockDisplayType === 1) {
-        radio1Element.checked = true;
-    } else {
-        radio2Element.checked = true;
+    if (blockPostDisplayType === 1) {
+        postRadio1Element.checked = true;
+    } else if (blockListDisplayType === 2) {
+        postRadio2Element.checked = true;
+    } else if (blockListDisplayType === 3) {
+        postRadio3Element.checked = true;
+    }
+
+    if (blockListDisplayType === 1) {
+        listRadio1Element.checked = true;
+    } else if (blockListDisplayType === 2) {
+        listRadio2Element.checked = true;
+    } else if (blockListDisplayType === 3) {
+        listRadio3Element.checked = true;
     }
 }
-function onclickRadio (event1) {
-    blockDisplayType = Number(document.querySelector('input[name="inlineRadioOptions"]:checked').value);
+
+function onclickPostRadio (event1) {
+    const postRadioCheckElement = document.querySelector('input[name="postRadioOptions"]:checked');
+    // console.log(postRadioCheckElement)
+    blockPostDisplayType = Number(postRadioCheckElement.value);
     saveChromeData();
 }
 
-radio1Element.addEventListener('click', onclickRadio, false);
-radio2Element.addEventListener('click', onclickRadio, false);
+function onclickListRadio (event1) {
+    const listRadioCheckElement = document.querySelector('input[name="listRadioOptions"]:checked');
+    blockListDisplayType = Number(listRadioCheckElement.value);
+    saveChromeData();
+}
+
+postRadio1Element.addEventListener('click', onclickPostRadio, false);
+postRadio2Element.addEventListener('click', onclickPostRadio, false);
+postRadio3Element.addEventListener('click', onclickPostRadio, false);
+
+listRadio1Element.addEventListener('click', onclickListRadio, false);
+listRadio2Element.addEventListener('click', onclickListRadio, false);
+listRadio3Element.addEventListener('click', onclickListRadio, false);
 
 
 function showList(userId) {
