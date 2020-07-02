@@ -1,4 +1,3 @@
-
 const postRadio1Element = document.querySelector("#postRadio1");
 const postRadio2Element = document.querySelector("#postRadio2");
 const postRadio3Element = document.querySelector("#postRadio3");
@@ -25,7 +24,7 @@ let blockUserList = [];
 
 function saveChromeData(data) {
     const dataTemp = {
-        tgfcerBlockUsers : blockUserList,
+        tgfcerBlockUsers: blockUserList,
         tgfcerAutoIncrement: autoIncrement,
         tgfcerBlockPostDisplayType: blockPostDisplayType,
         tgfcerBlockListDisplayType: blockListDisplayType
@@ -49,7 +48,6 @@ function getChromeData() {
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             setRadioValue();
             showList();
-        } else {
         }
     });
 }
@@ -60,9 +58,9 @@ function getChromeData() {
 function setRadioValue() {
     if (blockPostDisplayType === 1) {
         postRadio1Element.checked = true;
-    } else if (blockListDisplayType === 2) {
+    } else if (blockPostDisplayType === 2) {
         postRadio2Element.checked = true;
-    } else if (blockListDisplayType === 3) {
+    } else if (blockPostDisplayType === 3) {
         postRadio3Element.checked = true;
     }
 
@@ -75,14 +73,14 @@ function setRadioValue() {
     }
 }
 
-function onclickPostRadio (event1) {
+function onclickPostRadio(event1) {
     const postRadioCheckElement = document.querySelector('input[name="postRadioOptions"]:checked');
     // console.log(postRadioCheckElement)
     blockPostDisplayType = Number(postRadioCheckElement.value);
     saveChromeData();
 }
 
-function onclickListRadio (event1) {
+function onclickListRadio(event1) {
     const listRadioCheckElement = document.querySelector('input[name="listRadioOptions"]:checked');
     blockListDisplayType = Number(listRadioCheckElement.value);
     saveChromeData();
@@ -101,7 +99,7 @@ function showList(userId) {
 
     let html = ""
 
-    blockUserList.forEach( (user) => {
+    blockUserList.forEach((user) => {
 
         if (userId && userId === user.id.toString()) {
 
@@ -135,7 +133,7 @@ function onclickAddButtonOption(event1) {
         return;
     }
 
-    const isExist = blockUserList.find( (user) => newUser.name === user.name)
+    const isExist = blockUserList.find((user) => newUser.name === user.name)
 
     if (isExist) {
         inputUsername.classList.add("is-invalid");
@@ -166,9 +164,9 @@ function onclickDelButton(event1) {
         isEditSave = target.id.slice(0, 5);
     }
 
-    if (target.nodeName.toLocaleLowerCase() === 'button' && currentId)  {
+    if (target.nodeName.toLocaleLowerCase() === 'button' && currentId) {
 
-        let isExist = blockUserList.find( (user) => currentId === user.id.toString())
+        let isExist = blockUserList.find((user) => currentId === user.id.toString())
 
         if (isExist) {
 
@@ -199,4 +197,3 @@ function onclickDelButton(event1) {
 }
 
 userListElement.addEventListener('click', onclickDelButton, false);
-
