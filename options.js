@@ -9,6 +9,7 @@ const listRadio3Element = document.querySelector("#listRadio3");
 
 const buttonUserAdd = document.querySelector("#user-add");
 const inputUsername = document.querySelector("#username");
+const inputRemark = document.querySelector("#remark");
 
 const userListElement = document.querySelector("#user-list");
 
@@ -103,9 +104,9 @@ function showList(userId) {
 
         if (userId && userId === user.id.toString()) {
 
-            html = html + `<li class="list-group-item" id="id-${user.id}">  <input type="text" class="form-control col-sm-4 float-left" id="input-${user.id}" value="${user.name}"> <button class="btn btn-outline-primary btn-sm ml-4 float-left" id="save-${user.id}">保存修改</button> </li>`
+            html = html + `<li class="list-group-item" id="id-${user.id}">  <input type="text" class="form-control col-sm-4 float-left" id="input-${user.id}" value="${user.name}">  <input type="text" class="form-control col-sm-4 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary btn-sm ml-4 float-left" id="save-${user.id}">保存修改</button> </li>`
         } else {
-            html = html + `<li class="list-group-item" id="id-${user.id}">  ${user.name} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
+            html = html + `<li class="list-group-item" id="id-${user.id}">  ${user.name} | ${user.remark} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
         }
     })
 
@@ -123,7 +124,8 @@ function onclickAddButtonOption(event1) {
 
     const newUser = {
         id: autoIncrement,
-        name: inputUsername.value.trim()
+        name: inputUsername.value.trim(),
+        remark: inputRemark.value.trim() || ''
     }
 
     inputUsername.classList.remove("is-invalid");
@@ -142,6 +144,7 @@ function onclickAddButtonOption(event1) {
         showList();
 
         inputUsername.value = '';
+        inputRemark.value = '';
         autoIncrement = autoIncrement + 1;
 
         saveChromeData();
@@ -186,6 +189,7 @@ function onclickDelButton(event1) {
                 } else {
                     // Edit save
                     isExist.name = document.querySelector("#input-" + currentId.toString()).value
+                    isExist.remark = document.querySelector("#inputremark-" + currentId.toString()).value
                     showList();
                     saveChromeData();
                 }
