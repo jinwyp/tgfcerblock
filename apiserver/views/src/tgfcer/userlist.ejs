@@ -68,7 +68,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+<!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             nameListText : ''
         },
         mounted () {
-            $.ajax( "http://localhost:8088/api/tgfcer/user/count" )
+            $.ajax( "/api/tgfcer/user/count" )
                 .done( (data) => {
                     if (Array.isArray(data.data)) {
                         data.data.forEach ( (user) => {
