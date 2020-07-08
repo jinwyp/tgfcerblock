@@ -5,8 +5,6 @@ const validationName = {
 
         usernameDBCreateError : {code:1801, message:"DB Error,  username create error !", field:'username'},
 
-
-
         usernameRequired : {code:1001, message:"Field validation error,  username is required", field:'username'},
         passwordRequired : {code:1002, message:"Field validation error,  password is required", field:'password'},
         passwordNewRequired : {code:1003, message:"Field validation error,  new password is required", field:'newPassword'},
