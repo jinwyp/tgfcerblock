@@ -1,4 +1,6 @@
 # Logs
+package-lock.json
+nedb
 logs
 *.log
 npm-debug.log*

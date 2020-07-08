@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="./bootstrap.min.css" >
+
+    <title>TGFCER Block User Options</title>
+
+    <style>
+        .main {
+            margin: 10px 5px;
+        }
+
+        .main h5 {
+            margin: 20px 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="container main">
+
+    <h5>设置TGFCER论坛 屏蔽的用户名</h5>
+
+    <form id="formType" class="mt-4 ">
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label >帖子页:</label>
+            </div>
+            <div class="col-sm-8">
+                <div class="form-check  ">
+                    <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio1" value="1">
+                    <label class="form-check-label" for="postRadio1">不处理, 帖子页面正常显示</label>
+                </div>
+                <div class="form-check  ">
+                    <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio2" value="2">
+                    <label class="form-check-label" for="postRadio2">隐藏文字（该楼层回帖文字改成与背景色相同)</label>
+                </div>
+                <div class="form-check ">
+                    <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio3" value="3">
+                    <label class="form-check-label" for="postRadio3">删除 (该楼回复直接不显示）</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-1">
+                <label >列表页:</label>
+            </div>
+            <div class="col-sm-8">
+                <div class="form-check  ">
+                    <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio1" value="1">
+                    <label class="form-check-label" for="listRadio1">不处理, 列表页面正常显示</label>
+                </div>
+                <div class="form-check  ">
+                    <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio2" value="2">
+                    <label class="form-check-label" for="listRadio2">隐藏文字（该帖子标题文字改成与背景色相同)）</label>
+                </div>
+                <div class="form-check ">
+                    <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio3" value="3">
+                    <label class="form-check-label" for="listRadio3">删除 (该帖子在列表中直接不显示）</label>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <form id="form" class="mt-5">
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <input type="text" class="form-control " id="username" placeholder="添加新屏蔽的用户名">
+                <div class="invalid-feedback">
+                    用户为空或已存在!
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control " id="remark" placeholder="备注或屏蔽理由">
+                <div class="invalid-feedback">
+                    用户为空或已存在!
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-outline-primary" id="user-add">添加</button>
+            </div>
+
+        </div>
+    </form>
+
+    <ul class="list-group" id="user-list">
+        <li class="list-group-item">  <button class="btn btn-outline-primary btn-sm">编辑</button> <button class="btn-outline-danger btn-sm">删除</button> </li>
+    </ul>
+
+</div>
+
+
+<script src="./options.js"></script>
+
+
+</body>
+</html>

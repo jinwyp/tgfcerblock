@@ -1,0 +1,22 @@
+{
+  "verbose": true,
+  "restartable": "rs",
+  "ignore": [
+    "bin",
+    "node_modules",
+    "testing",
+    "public",
+    "views",
+    "logs"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG" : "koa2-user:*"
+  },
+  "ext": "js json",
+  "execMap": {
+    "js": "node",
+    "rb": "ruby",
+    "pde": "processing --sketch={{pwd}} --run"
+  }
+}

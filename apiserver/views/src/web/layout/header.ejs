@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-light navbar-theme1">
+
+    <a class="navbar-brand" href="/web/index">
+        <img alt="logo" src="<%= staticPath %>/images/logo.svg">
+    </a>
+
+    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarMenuu" aria-controls="navbarMenuu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenuu">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link menu" href="/web/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link menu" href="#">链接</a>
+            </li>
+
+        </ul>
+
+        <ul class="navbar-nav" <%- ngShow(!user) %> >
+            <li class="nav-item"> <a class="nav-link btn btn-outline-secondary btn-login" href="/web/login">登陆 </a> </li>
+            <li class="nav-item"> <a class="nav-link btn btn-outline-secondary btn-login" href="/web/signup">注册</a>  </li>
+        </ul>
+
+        <% if (user) { %>
+
+        <ul class="navbar-nav" <%- ngShow(user) %> >
+            <li class="nav-item dropdown user-info">
+                <a class="nav-link dropdown-toggle " href="/web/home" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-user mr-2" aria-hidden="true"></i><%= user.username %> </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/web/home">账户设置</a>
+                    <a class="dropdown-item" href="/web/home">修改密码</a>
+                    <a class="dropdown-item" href="/web/admin" <%- ngShow(user.isAdmin) %> >后台管理</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" id="logout" >退出</a>
+                </div>
+            </li>
+        </ul>
+
+        <% } %>
+
+
+    </div>
+
+
+</nav>

@@ -1,0 +1,104 @@
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<!--
+
+<script type="text/javascript" src="<%= staticPath %>/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="<%= staticPath %>/js/popper.js/umd/popper.min.js"></script>
+<script type="text/javascript" src="<%= staticPath %>/js/bootstrap/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="<%= staticPath %>/js/manifest.bundle.js"></script>
+<script type="text/javascript" src="<%= staticPath %>/js/polyfills.bundle.js"></script>
+<script type="text/javascript" src="<%= staticPath %>/js/vendor.bundle.js"></script>
+-->
+
+
+<% if (template === 'login') { %>
+<script src="<%= staticPath %>/login/polyfills-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/login/polyfills-es2015.js" type="module"></script>
+
+<script src="<%= staticPath %>/login/styles-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/login/styles-es2015.js" type="module"></script>
+
+
+<script src="<%= staticPath %>/login/runtime-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/login/runtime-es5.js" nomodule defer></script>
+
+<script src="<%= staticPath %>/login/vendor-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/login/vendor-es5.js" nomodule defer></script>
+<% } %>
+
+
+
+<% if (template === 'registration') { %>
+<script src="<%= staticPath %>/login/polyfills-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/login/polyfills-es2015.js" type="module"></script>
+
+<script src="<%= staticPath %>/login/styles-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/login/styles-es2015.js" type="module"></script>
+
+
+<script src="<%= staticPath %>/login/runtime-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/login/runtime-es5.js" nomodule defer></script>
+
+<script src="<%= staticPath %>/login/vendor-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/login/vendor-es5.js" nomodule defer></script>
+<% } %>
+
+
+
+<% if (template === 'userhome') { %>
+<script src="<%= staticPath %>/user-home/polyfills-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/user-home/polyfills-es2015.js" type="module"></script>
+
+<script src="<%= staticPath %>/user-home/styles-es5.js" nomodule defer></script>
+<script src="<%= staticPath %>/user-home/styles-es2015.js" type="module"></script>
+
+
+<script src="<%= staticPath %>/user-home/runtime-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/user-home/runtime-es5.js" nomodule defer></script>
+
+<script src="<%= staticPath %>/user-home/vendor-es2015.js" type="module"></script>
+<script src="<%= staticPath %>/user-home/vendor-es5.js" nomodule defer></script>
+<% } %>
+
+
+
+<script type="text/javascript">
+/*
+
+
+    $( document ).ready(function() {
+
+        $( "#logout" ).click(function(event) {
+
+            event.preventDefault();
+
+            $.ajax({
+                url : '/api/user/logout',
+
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+
+                dataType : "json",
+            })
+            .done(function(result) {
+                console.log('Logout success', result)
+                window.location.href = '/web/login'
+            })
+            .fail(function(xhr, status, errorThrown) {
+                console.error('Logout error', errorThrown)
+            })
+            .always(function(xhr, status) {
+//                alert( "complete" );
+            })
+
+        })
+
+    })
+
+*/
+
+
+
+
+</script>

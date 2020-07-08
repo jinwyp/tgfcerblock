@@ -1,0 +1,39 @@
+<%- include ./includehead/doctype %>
+<head>
+    <%- include ./includehead/head %>
+
+    <base href="/web/login">
+</head>
+<body>
+
+
+<div class="container-fluid main-box">
+
+    <app-login-index>
+        <!-- selector from app.component.ts -->
+
+        <!-- loading layout replaced by app after startupp -->
+        <div class="app-loading">
+            <div class="logo"></div>
+            <svg class="spinner" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+        
+    </app-login-index>
+
+</div>
+
+
+
+
+<%- include ./includehead/bottomscript.ejs %>
+
+<!--<script type="text/javascript" src="<%= staticPath %>/js/login.bundle.js"></script>-->
+
+<script type="text/javascript" src="<%= staticPath %>/login/main-es5.js" nomodule defer></script>
+<script type="text/javascript" src="<%= staticPath %>/login/main-es2015.js" type="module"></script>
+
+
+</body>
+</html>

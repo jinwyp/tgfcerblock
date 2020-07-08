@@ -1,0 +1,37 @@
+<%- include ./includehead/doctype %>
+<head>
+    <%- include ./includehead/head %>
+
+    <base href="/web/home">
+
+</head>
+<body>
+
+
+
+<%- include ./layout/header.ejs %>
+
+
+<div class="container-fluid main-box">
+    <div class="row justify-content-center mt-4">
+
+        <div class="col-6 mt-2">
+            <H4>您好 <%= user.username %>,  您的邮箱已经通过验证! <button class="btn btn-link"><a href="/web/index">返回首页</a></button></H4>
+            
+        </div>  
+        
+    </div>
+
+</div>
+
+
+
+
+<%- include ./includehead/bottomscript.ejs %>
+
+
+
+
+</body>
+</html>
+
