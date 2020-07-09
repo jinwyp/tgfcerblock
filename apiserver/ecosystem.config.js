@@ -52,7 +52,7 @@ module.exports = {
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/tgfcer",
       "post-setup": "ls -lah",
-      "post-deploy" : "cd ./apiserver && npm install"
+      "post-deploy" : "pm2 startOrRestart ecosystem.json --env production"
     },
     dev : {
       user : "root",
@@ -62,7 +62,9 @@ module.exports = {
       }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
-      path : "/root/nodejs/tgfcerdev"
+      path : "/root/nodejs/tgfcerdev",
+      "post-setup": "ls -lah",
+      "post-deploy" : "cd ./apiserver && npm install && pm2 startOrRestart ecosystem.json --env production"
     }
   }
 }
