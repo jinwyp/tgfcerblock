@@ -52,7 +52,7 @@ module.exports = {
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs",
       "post-setup": "cd apiserver",
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.config.js --env production"
+      "post-deploy" : "npm install "
     },
     dev : {
       user : "root",
