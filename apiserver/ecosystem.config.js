@@ -44,14 +44,22 @@ module.exports = {
   deploy : {
     production : {
       user : "root",
-      host : "95.169.17.157",
+      host : [{
+        host : "95.169.17.157",
+        port: "28986"
+      }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
-      path : "/root/nodejs"
+      path : "/root/nodejs",
+      "post-setup": "cd apiserver",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.config.js --env production"
     },
     dev : {
       user : "root",
-      host : "95.169.17.157",
+      host : [{
+        host : "95.169.17.157",
+        port: "28986"
+      }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/development"
