@@ -27,8 +27,8 @@ module.exports = {
       script    : "./server.js",
       env: {
         COMMON_VARIABLE: "true",
-        NODE_ENV: "development",
-        DEBUG : "koa2-user:*"
+        DEBUG : "koa2-user:*",
+        NODE_ENV: "development"
       },
 
       env_production : {
@@ -47,19 +47,14 @@ module.exports = {
       host : "95.169.17.157",
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
-      path : "/root/nodejs/production",
-      "post-deploy" : "pm2 startOrRestart ecosystem.config.js --env production"
+      path : "/root/nodejs"
     },
     dev : {
-      user : "node",
-      host : "212.83.163.1",
+      user : "root",
+      host : "95.169.17.157",
       ref  : "origin/master",
-      repo : "git@github.com:repo.git",
-      path : "/var/www/development",
-      "post-deploy" : "pm2 startOrRestart ecosystem.config.js --env dev",
-      env  : {
-        NODE_ENV: "dev"
-      }
+      repo : "git@github.com:jinwyp/tgfcerblock.git",
+      path : "/root/nodejs/development"
     }
   }
 }
