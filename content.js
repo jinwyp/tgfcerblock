@@ -10,6 +10,7 @@ let blockUserList = [];
 let blockUserListArray = [];
 let blockPostType = 1;
 let blockListType = 1;
+let userBlockListType = 2;
 let currentUrl = '';
 let isWap = false;
 let pageType = 0;
@@ -25,6 +26,7 @@ function getChromeData() {
             blockUserListArray = blockUserList.map( user => user.name );
             blockPostType = result.tgfcerBlockPostDisplayType || 1;
             blockListType = result.tgfcerBlockListDisplayType || 1;
+            userBlockListType = result.tgfcerUserBlockListDisplayType || 2;
             findUserElement()
 
         }

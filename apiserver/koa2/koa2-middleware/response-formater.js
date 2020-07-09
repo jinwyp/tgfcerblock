@@ -88,6 +88,7 @@ const url_filter = function (pattern, options){
             // console.log('code:',error.code)
             // console.log('message:',error.message)
             // console.log('field:',error.field)
+            // console.log('===== ===== error stack:',error.stack)
 
             let newErr = error;
 

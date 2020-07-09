@@ -39,6 +39,9 @@
   },
   "permissions": [
     "activeTab", "tabs", "storage",
-    "https://*.tgfcer.com/*"
+    "https://*.tgfcer.com/*",
+    "https://*.jscool.net/*",
+    "http://*.jscool.net/*",
+    "http://*.localhost/*"
   ]
 }

@@ -11,7 +11,7 @@ const path = require("path")
 module.exports = {
 
     https    : false,
-    domain   : "www.jscool.net",
+    domain   : "tgfcer.jscool.net",
     port     : 8088, // 程序运行的端口,
 
     pathViewTemplate : path.join(__dirname, '../views/src'),

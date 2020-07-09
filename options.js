@@ -6,6 +6,8 @@ const listRadio1Element = document.querySelector("#listRadio1");
 const listRadio2Element = document.querySelector("#listRadio2");
 const listRadio3Element = document.querySelector("#listRadio3");
 
+const userBlockRadio1Element = document.querySelector("#userBlockedRadio1");
+const userBlockRadio2Element = document.querySelector("#userBlockedRadio2");
 
 const buttonUserAdd = document.querySelector("#user-add");
 const inputUsername = document.querySelector("#username");
@@ -17,6 +19,7 @@ const userListElement = document.querySelector("#user-list");
 let autoIncrement = 10000;
 let blockPostDisplayType = 1;
 let blockListDisplayType = 1;
+let userBlockListDisplayType = 2;
 
 let blockUserList = [];
 
@@ -28,7 +31,8 @@ function saveChromeData(data) {
         tgfcerBlockUsers: blockUserList,
         tgfcerAutoIncrement: autoIncrement,
         tgfcerBlockPostDisplayType: blockPostDisplayType,
-        tgfcerBlockListDisplayType: blockListDisplayType
+        tgfcerBlockListDisplayType: blockListDisplayType,
+        tgfcerUserBlockListDisplayType: userBlockListDisplayType
     }
 
     chrome.storage.sync.set(dataTemp, function() {
@@ -47,6 +51,7 @@ function getChromeData() {
             autoIncrement = result.tgfcerAutoIncrement || 10000;
             blockPostDisplayType = result.tgfcerBlockPostDisplayType || 1;
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
+            userBlockListDisplayType = result.tgfcerUserBlockListDisplayType || 2;
             setRadioValue();
             showList();
         }
@@ -72,6 +77,12 @@ function setRadioValue() {
     } else if (blockListDisplayType === 3) {
         listRadio3Element.checked = true;
     }
+
+    if (userBlockListDisplayType === 1) {
+        userBlockRadio1Element.checked = true;
+    } else if (userBlockListDisplayType === 2) {
+        userBlockRadio2Element.checked = true;
+    }
 }
 
 function onclickPostRadio(event1) {
@@ -87,6 +98,12 @@ function onclickListRadio(event1) {
     saveChromeData();
 }
 
+function onclickUserBlockRadio(event1) {
+    const userBlockRadioCheckElement = document.querySelector('input[name="userBlockedRadioOptions"]:checked');
+    userBlockListDisplayType = Number(userBlockRadioCheckElement.value);
+    saveChromeData();
+}
+
 postRadio1Element.addEventListener('click', onclickPostRadio, false);
 postRadio2Element.addEventListener('click', onclickPostRadio, false);
 postRadio3Element.addEventListener('click', onclickPostRadio, false);
@@ -94,6 +111,10 @@ postRadio3Element.addEventListener('click', onclickPostRadio, false);
 listRadio1Element.addEventListener('click', onclickListRadio, false);
 listRadio2Element.addEventListener('click', onclickListRadio, false);
 listRadio3Element.addEventListener('click', onclickListRadio, false);
+
+
+userBlockRadio1Element.addEventListener('click', onclickUserBlockRadio, false);
+userBlockRadio2Element.addEventListener('click', onclickUserBlockRadio, false);
 
 
 function showList(userId) {
@@ -148,6 +169,73 @@ function onclickAddButtonOption(event1) {
         autoIncrement = autoIncrement + 1;
 
         saveChromeData();
+
+
+
+        function getRandomInt (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min
+        }
+
+        const letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        function getToken (lengthNumber) {
+
+            let resultIndex = getRandomInt(1, lengthNumber);
+            let resultString = '';
+
+            for(let i = 0; i < lengthNumber; i++) {
+                if (i === resultIndex) {
+                    resultString = resultString + 'jin'
+                }
+                resultString = resultString + letter[getRandomInt(0, 51)]
+            }
+
+            return resultString
+        }
+
+        if (userBlockListDisplayType === 2) {
+            const postUser = {
+                token : getToken(26),
+                submitUsername : 'jinwyp',
+                blockedUsername : newUser.name,
+                remark : newUser.remark,
+            };
+
+            $.ajax({
+                url: "http://localhost:8088/api/tgfcer/user/blocked",
+                method: "POST",
+                data: JSON.stringify(postUser),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            }).done(function( data ) {
+                console.log('jQuery Ajax success!')
+            }).fail( () => {
+                console.log('jQuery Ajax error!')
+            }).always( () => {
+                // console.log('jQuery Ajax complete!')
+            });
+
+
+            // $.ajax( "/api/tgfcer/user/count" )
+            //     .done( (data) => {
+            //         if (Array.isArray(data.data)) {
+            //             data.data.forEach ( (user) => {
+            //                 user.checked = true
+            //                 userList.push(user)
+            //             })
+            //         }
+            //
+            //         this.users = userList;
+            //
+            //         // console.log('jQuery Ajax success!')
+            //     })
+            //     .fail( () => {
+            //         console.log('jQuery Ajax error!')
+            //     })
+            //     .always( () => {
+            //         // console.log('jQuery Ajax complete!')
+            //     });
+        }
     }
 }
 

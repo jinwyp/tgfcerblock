@@ -137,6 +137,7 @@ function productionErrorHandler (app, options){
 
                 if (options.env === 'production'){
                     error.stack = ''
+                    ctx.body.error.stack = ''
                 }
 
                 console.log('==================== ctx.status', ctx.status)
