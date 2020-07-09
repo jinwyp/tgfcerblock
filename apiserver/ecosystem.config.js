@@ -51,8 +51,8 @@ module.exports = {
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/tgfcer",
-      "post-setup": "cd apiserver",
-      "post-deploy" : "cd apiserver && npm install "
+      "post-setup": "ls -lah",
+      "post-deploy" : "cd ./apiserver && npm install"
     },
     dev : {
       user : "root",
