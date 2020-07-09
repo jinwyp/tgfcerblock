@@ -51,8 +51,9 @@ module.exports = {
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/tgfcer",
+      "pre-deploy": "git pull",
       "post-setup": "ls -lah",
-      "post-deploy" : "cd ./apiserver && pm2 startOrRestart ecosystem.json --env production"
+      "post-deploy" : "ll && cd ./apiserver && pm2 startOrRestart ecosystem.json --env production"
     },
     dev : {
       user : "root",
