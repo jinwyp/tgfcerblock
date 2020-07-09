@@ -52,8 +52,8 @@ module.exports = {
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/tgfcer",
       "pre-deploy": "git pull",
-      "post-setup": "ls -lah",
-      "post-deploy" : "ls && cd ./apiserver && pm2 startOrRestart ecosystem.json --env production"
+      "post-setup": "ls -lah && cd ./apiserver && npm install",
+      "post-deploy" : "ls -lah && cd ./apiserver && pm2 startOrRestart ecosystem.config.js --env production"
     },
     dev : {
       user : "root",
@@ -65,7 +65,7 @@ module.exports = {
       repo : "git@github.com:jinwyp/tgfcerblock.git",
       path : "/root/nodejs/tgfcerdev",
       "post-setup": "ls -lah",
-      "post-deploy" : "cd ./apiserver && npm install && pm2 startOrRestart ecosystem.json --env production"
+      "post-deploy" : "cd ./apiserver && npm install && pm2 startOrRestart ecosystem.config.js"
     }
   }
 }
