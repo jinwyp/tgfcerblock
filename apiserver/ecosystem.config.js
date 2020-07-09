@@ -50,9 +50,9 @@ module.exports = {
       }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
-      path : "/root/nodejs",
+      path : "/root/nodejs/tgfcer",
       "post-setup": "cd apiserver",
-      "post-deploy" : "npm install "
+      "post-deploy" : "cd apiserver && npm install "
     },
     dev : {
       user : "root",
@@ -62,7 +62,7 @@ module.exports = {
       }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
-      path : "/root/nodejs/development"
+      path : "/root/nodejs/tgfcerdev"
     }
   }
 }
