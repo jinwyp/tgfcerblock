@@ -101,4 +101,5 @@ app.listen(GConfig.port, () => {
 
 
 
+module.exports = app;
 

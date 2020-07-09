@@ -1,11 +1,8 @@
 {
-  "name": "koa2-user",
+  "name": "tgfcerblockuser",
   "version": "1.0.0",
-  "description": "Best practice for koa2 on Node.js v7.8++",
+  "description": "tgfcer block user",
   "main": "server.js",
-  "bin": {
-    "gen": "gen.js"
-  },
   "scripts": {
     "start": "npm run staging",
     "dev": "nodemon server.js",
