@@ -41,6 +41,7 @@ exports.createNewBlockedUser = async (ctx, next) => {
 
     const newBlockedUser = {
         token: body.token,
+        localId: body.localId,
         uuid: nanoid(),
         submitUsername: body.submitUsername,
         blockedUsername: body.blockedUsername,

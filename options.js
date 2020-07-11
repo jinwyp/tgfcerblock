@@ -15,7 +15,9 @@ const buttonBlockUserList = document.querySelector("#btnBlockUserList");
 const boxBlockUserRanking = document.querySelector("#blockUserRanking");
 const boxBlockUserList = document.querySelector("#blockUserList");
 
-const buttonUserAdd = document.querySelector("#user-add");
+const buttonUserAddSingle = document.querySelector("#user-add");
+const buttonUserAddBatch = document.querySelector("#user-add-batch");
+const buttonUserError = document.querySelector("#btnInputError");
 const inputUsername = document.querySelector("#username");
 const inputRemark = document.querySelector("#remark");
 
@@ -79,7 +81,7 @@ function getLocalStorage () {
     chrome.storage.local.get(null, function (result) {
         console.log('Chrome local storage get data: ', result)
         if (result && result.currentUsername) {
-            currentUsername = result.currentUsername;
+            currentUsername = result.currentUsername.trim();
         }
     })
 }
@@ -206,24 +208,31 @@ getChromeData();
 showList();
 
 
-function onclickAddButtonOption(event1) {
+function onclickAddButtonSingle(event1) {
+    event1.preventDefault();
 
     if (!currentUsername) {
         getLocalStorage()
     }
-    event1.preventDefault();
+
+    inputUsername.classList.remove("is-invalid");
+    buttonUserError.innerHTML = '用户为空或已存在!';
+
+    if (!inputUsername.value.trim()) {
+        inputUsername.classList.add("is-invalid");
+        return;
+    }
+
+    if (inputUsername.value.indexOf(',') > -1) {
+        return;
+    }
+
 
     const newUser = {
         id: autoIncrement,
         name: inputUsername.value.trim(),
+        currentUsername: currentUsername,
         remark: inputRemark.value.trim() || ''
-    }
-
-    inputUsername.classList.remove("is-invalid");
-
-    if (!newUser.name) {
-        inputUsername.classList.add("is-invalid");
-        return;
     }
 
     const isExist = blockUserList.find((user) => newUser.name === user.name)
@@ -239,6 +248,7 @@ function onclickAddButtonOption(event1) {
         autoIncrement = autoIncrement + 1;
 
         saveChromeData();
+
 
 
         // 上传屏蔽用户信息
@@ -266,6 +276,7 @@ function onclickAddButtonOption(event1) {
         if (userBlockListDisplayType === 2) {
             const postUser = {
                 token : getToken(26),
+                localId : newUser.id,
                 submitUsername : currentUsername,
                 blockedUsername : newUser.name,
                 remark : newUser.remark,
@@ -290,7 +301,71 @@ function onclickAddButtonOption(event1) {
     }
 }
 
-buttonUserAdd.addEventListener('click', onclickAddButtonOption, false);
+
+function onclickAddButtonBatch(event2) {
+    event2.preventDefault();
+
+    if (!currentUsername) {
+        getLocalStorage()
+    }
+
+    inputUsername.classList.remove("is-invalid");
+    buttonUserError.innerHTML = '用户为空或已存在!';
+
+    if (!inputUsername.value.trim()) {
+        inputUsername.classList.add("is-invalid");
+        return;
+    }
+
+    if (inputUsername.value.indexOf(',') === -1) {
+        return;
+    }
+
+
+    let usernameListTemp = inputUsername.value.trim().split(',');
+    console.log(inputUsername, usernameListTemp)
+
+    let usernameListExistTemp = [];
+    if (usernameListTemp && usernameListTemp.length > 1) {
+
+        usernameListTemp.forEach( (username) => {
+
+            if (username) {
+                const newUser = {
+                    id: autoIncrement,
+                    name: username.trim(),
+                    currentUsername: currentUsername,
+                    remark: ''
+                }
+
+                const isExist = blockUserList.find((user) => newUser.name === user.name)
+
+                if (isExist) {
+                    inputUsername.classList.add("is-invalid");
+                    usernameListExistTemp.push(username)
+                } else {
+                    blockUserList.push(newUser);
+
+                    inputUsername.value = '';
+                    inputRemark.value = '';
+                    autoIncrement = autoIncrement + 1;
+
+                }
+            }
+        })
+
+        if (usernameListExistTemp.length > 0) {
+            buttonUserError.innerHTML = '用户为空或已存在用户:  ' + usernameListExistTemp.join(',') + ' (已导入不存在的用户)';
+        }
+        showList();
+        saveChromeData();
+    }
+
+}
+
+
+buttonUserAddSingle.addEventListener('click', onclickAddButtonSingle, false);
+buttonUserAddBatch.addEventListener('click', onclickAddButtonBatch, false);
 
 
 
