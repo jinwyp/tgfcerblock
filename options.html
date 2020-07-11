@@ -19,6 +19,7 @@
         #btnBlockUserRanking, #btnBlockUserList {
             visibility: hidden;
         }
+
     </style>
 </head>
 <body>
@@ -88,8 +89,8 @@
     </form>
 
 
-
-    <div>
+    <div class="mt-3" id="blockUserList">
+        <h4>管理屏蔽用户列表</h4>
         <form id="form" class="mt-5">
             <div class="form-group row">
                 <div class="col-sm-4">
@@ -116,9 +117,9 @@
         </ul>
     </div>
 
-    <div>
-        <iframe id="inlineFrameExample" title="Inline Frame Example" width="300" height="200" src="http://tgfcer.jscool.net/web/tgfcer">
-        </iframe>
+
+    <div class="mt-3" id="blockUserRanking" style="display: none;">
+        <iframe id="inlineFrame" width="100%" frameborder="0" src="http://tgfcer.jscool.net/web/tgfcer"></iframe>
     </div>
 
 </div>

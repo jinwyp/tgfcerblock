@@ -12,6 +12,9 @@ const userBlockRadio2Element = document.querySelector("#userBlockedRadio2");
 const buttonBlockUserRanking = document.querySelector("#btnBlockUserRanking");
 const buttonBlockUserList = document.querySelector("#btnBlockUserList");
 
+const boxBlockUserRanking = document.querySelector("#blockUserRanking");
+const boxBlockUserList = document.querySelector("#blockUserList");
+
 const buttonUserAdd = document.querySelector("#user-add");
 const inputUsername = document.querySelector("#username");
 const inputRemark = document.querySelector("#remark");
@@ -83,11 +86,11 @@ function getLocalStorage () {
 
 
 function toggleShow(element) {
-    if (element.style.display === "none") {
-        element.style.display = "block";
-    } else {
-        element.style.display = "none";
-    }
+    element.style.display = "block";
+}
+
+function toggleHidden(element) {
+    element.style.display = "none";
 }
 
 function showElement (element) {
@@ -153,6 +156,17 @@ function onclickUserBlockRadio(event1) {
     toggleShowButtonUserList()
 }
 
+function onclickBlockUserRankingButton(event1) {
+    toggleShow(boxBlockUserRanking)
+    toggleHidden(boxBlockUserList)
+}
+
+function onclickBlockUserListButton(event1) {
+    toggleHidden(boxBlockUserRanking)
+    toggleShow(boxBlockUserList)
+}
+
+
 postRadio1Element.addEventListener('click', onclickPostRadio, false);
 postRadio2Element.addEventListener('click', onclickPostRadio, false);
 postRadio3Element.addEventListener('click', onclickPostRadio, false);
@@ -164,6 +178,9 @@ listRadio3Element.addEventListener('click', onclickListRadio, false);
 
 userBlockRadio1Element.addEventListener('click', onclickUserBlockRadio, false);
 userBlockRadio2Element.addEventListener('click', onclickUserBlockRadio, false);
+
+buttonBlockUserRanking.addEventListener('click', onclickBlockUserRankingButton, false);
+buttonBlockUserList.addEventListener('click', onclickBlockUserListButton, false);
 
 
 function showList(userId) {
