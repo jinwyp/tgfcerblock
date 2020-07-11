@@ -44,7 +44,7 @@ app.use(errorHandler(app, {env : GConfig.env}));     // 全局错误处理
 
 app.use(log4js.middleware)
 app.use(logger())     // 记录所用方式与时间
-app.use(helmet())
+app.use(helmet({frameguard: false}))
 app.use(XResponseTime())     // 设置Header
 app.use(bodyParser())     // POST请求 body 解析
 app.use(cors())     // 跨域资源共享 CORS

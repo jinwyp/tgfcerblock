@@ -9,6 +9,9 @@ const listRadio3Element = document.querySelector("#listRadio3");
 const userBlockRadio1Element = document.querySelector("#userBlockedRadio1");
 const userBlockRadio2Element = document.querySelector("#userBlockedRadio2");
 
+const buttonBlockUserRanking = document.querySelector("#btnBlockUserRanking");
+const buttonBlockUserList = document.querySelector("#btnBlockUserList");
+
 const buttonUserAdd = document.querySelector("#user-add");
 const inputUsername = document.querySelector("#username");
 const inputRemark = document.querySelector("#remark");
@@ -79,6 +82,31 @@ function getLocalStorage () {
 }
 
 
+function toggleShow(element) {
+    if (element.style.display === "none") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+function showElement (element) {
+    element.style.visibility = "visible";
+}
+function hideElement (element) {
+    element.style.visibility = "hidden";
+}
+function toggleShowButtonUserList () {
+    if (userBlockListDisplayType === 2) {
+        showElement(buttonBlockUserRanking)
+        showElement(buttonBlockUserList)
+    } else {
+        hideElement(buttonBlockUserRanking)
+        hideElement(buttonBlockUserList)
+    }
+}
+
+
 function setRadioValue() {
     if (blockPostDisplayType === 1) {
         postRadio1Element.checked = true;
@@ -101,6 +129,7 @@ function setRadioValue() {
     } else if (userBlockListDisplayType === 2) {
         userBlockRadio2Element.checked = true;
     }
+    toggleShowButtonUserList()
 }
 
 function onclickPostRadio(event1) {
@@ -120,6 +149,8 @@ function onclickUserBlockRadio(event1) {
     const userBlockRadioCheckElement = document.querySelector('input[name="userBlockedRadioOptions"]:checked');
     userBlockListDisplayType = Number(userBlockRadioCheckElement.value);
     saveChromeData();
+
+    toggleShowButtonUserList()
 }
 
 postRadio1Element.addEventListener('click', onclickPostRadio, false);

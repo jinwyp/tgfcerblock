@@ -15,6 +15,10 @@
         .main h5 {
             margin: 20px 0px;
         }
+
+        #btnBlockUserRanking, #btnBlockUserList {
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
@@ -75,36 +79,47 @@
                 <div class="form-check  ">
                     <input class="form-check-input" type="radio" name="userBlockedRadioOptions" id="userBlockedRadio2" value="2">
                     <label class="form-check-label" for="userBlockedRadio2">开启（需要上传你的屏蔽用户信息）</label>
+
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="btnBlockUserRanking">查看屏蔽用户排行榜</button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" id="btnBlockUserList">返回管理屏蔽用户列表</button>
                 </div>
             </div>
         </div>
     </form>
 
 
-    <form id="form" class="mt-5">
-        <div class="form-group row">
-            <div class="col-sm-4">
-                <input type="text" class="form-control " id="username" placeholder="添加新屏蔽的用户名">
-                <div class="invalid-feedback">
-                    用户为空或已存在!
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <input type="text" class="form-control " id="remark" placeholder="备注或屏蔽理由">
-                <div class="invalid-feedback">
-                    用户为空或已存在!
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <button class="btn btn-outline-primary" id="user-add">添加</button>
-            </div>
 
-        </div>
-    </form>
+    <div>
+        <form id="form" class="mt-5">
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <input type="text" class="form-control " id="username" placeholder="添加新屏蔽的用户名">
+                    <div class="invalid-feedback">
+                        用户为空或已存在!
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control " id="remark" placeholder="备注或屏蔽理由">
+                    <div class="invalid-feedback">
+                        用户为空或已存在!
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-outline-primary" id="user-add">添加</button>
+                </div>
 
-    <ul class="list-group" id="user-list">
-        <li class="list-group-item">  <button class="btn btn-outline-primary btn-sm">编辑</button> <button class="btn-outline-danger btn-sm">删除</button> </li>
-    </ul>
+            </div>
+        </form>
+
+        <ul class="list-group" id="user-list">
+            <li class="list-group-item">  <button class="btn btn-outline-primary btn-sm">编辑</button> <button class="btn-outline-danger btn-sm">删除</button> </li>
+        </ul>
+    </div>
+
+    <div>
+        <iframe id="inlineFrameExample" title="Inline Frame Example" width="300" height="200" src="http://tgfcer.jscool.net/web/tgfcer">
+        </iframe>
+    </div>
 
 </div>
 
