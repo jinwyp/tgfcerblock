@@ -4,6 +4,10 @@
     <%- include ./header.ejs %>
 
     <style>
+        [v-cloak] {
+            display: none;
+        }
+
         .mainbox {
             margin: 10px 5px;
         }
@@ -11,6 +15,7 @@
         .mainbox h5 {
             margin: 20px 0px;
         }
+
     </style>
 </head>
 <body>
@@ -29,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive" v-cloak>
                 <table class="table table-striped table-sm">
                     <thead>
                         <tr>
@@ -37,7 +42,6 @@
                             <th>姓名</th>
                             <th>被屏蔽总次数</th>
                             <th>备注</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +51,6 @@
                             <td>{{user.count}}</td>
                             <td>{{user.remark}}</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
