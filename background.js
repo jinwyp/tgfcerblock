@@ -3,10 +3,14 @@
 
 // console.log("Chrome Extension background script running!")
 
-/*
 
+/*
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    window.bears[request.url] = request.count
+    console.log("request: ", request)
+    console.log("sender: ", sender)
+    console.log("sendResponse: ", sendResponse)
+
+    sendResponse({test:'test'})
 })
 
 

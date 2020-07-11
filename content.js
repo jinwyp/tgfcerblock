@@ -11,6 +11,7 @@ let blockUserListArray = [];
 let blockPostType = 1;
 let blockListType = 1;
 let userBlockListType = 2;
+let currentUsername = '';
 let currentUrl = '';
 let isWap = false;
 let pageType = 0;
@@ -28,7 +29,7 @@ function getChromeData() {
             blockListType = result.tgfcerBlockListDisplayType || 1;
             userBlockListType = result.tgfcerUserBlockListDisplayType || 2;
             findUserElement()
-
+            getCurrentUsername()
         }
     });
 }
@@ -59,6 +60,8 @@ function getCurrentUrl () {
         pageType = 2; // thread page
     }
 
+    // console.log(isWap, currentUrl);
+
 }
 
 
@@ -67,11 +70,11 @@ function getCurrentUrl () {
 function findUserElement () {
 
     if (isWap) {
-        let postsWapBox = document.querySelector(".scroller");
-        let postsWap = document.querySelectorAll(".infobar");
 
         // 帖子页面处理
         if (blockPostType !== 1 && pageType === 2) {
+
+            let postsWap = document.querySelectorAll(".infobar");
             postsWap.forEach( (post) => {
 
                 const userLink = post.querySelector(".user_name .user_name" );
@@ -159,28 +162,62 @@ function findUserElement () {
         if (blockListType !== 1 && pageType === 1) {
 
             let listForm = document.querySelector("form[name='moderate']");
-            let lists = listForm.querySelectorAll("tbody");
 
-            lists.forEach( (list) => {
-                const userLink = list.querySelector(".author cite a" )
-                const userTitle = list.querySelector("th span a" )
+            if (listForm) {
+                let lists = listForm.querySelectorAll("tbody");
+                lists.forEach( (list) => {
+                    const userLink = list.querySelector(".author cite a" )
+                    const userTitle = list.querySelector("th span a" )
 
-                // console.log(userLink, userLink.innerHTML);
+                    // console.log(userLink, userLink.innerHTML);
 
-                if (blockUserListArray.indexOf( userLink.innerHTML.trim() ) > -1 ) {
-                    if (blockListType === 2) {
-                        userTitle.style.color = "#ededed";
-                    } else {
-                        list.remove()
+                    if (blockUserListArray.indexOf( userLink.innerHTML.trim() ) > -1 ) {
+                        if (blockListType === 2) {
+                            userTitle.style.color = "#ededed";
+                        } else {
+                            list.remove()
+                        }
                     }
-                }
-            })
+                })
+            }
+
         }
 
+    }
+}
 
+
+
+function getCurrentUsername () {
+
+    if (isWap) {
+        const usernameBox = document.querySelector(".userInfo" )
+
+        if (usernameBox) {
+            const usernameTd = usernameBox.querySelectorAll("td" )
+            const username = usernameTd[1].querySelector("b" )
+
+            if (username && username.innerHTML.length > 0) {
+                currentUsername = username.innerHTML.trim()
+            }
+        }
+
+    } else {
+        const usernameLink = document.querySelector("#my b" )
+
+        if (usernameLink && usernameLink.innerHTML.length > 0) {
+            currentUsername = usernameLink.innerHTML.trim()
+        }
     }
 
+    if (currentUsername) {
+        chrome.storage.local.set ( {currentUsername : currentUsername}, function (){
+            console.log('Chrome local storage saved data: ', currentUsername)
+        })
+    }
 }
+
+
 
 getCurrentUrl();
 getChromeData()

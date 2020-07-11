@@ -17,6 +17,7 @@ const userListElement = document.querySelector("#user-list");
 
 
 let autoIncrement = 10000;
+let currentUsername = '';
 let blockPostDisplayType = 1;
 let blockListDisplayType = 1;
 let userBlockListDisplayType = 2;
@@ -25,6 +26,8 @@ let blockUserList = [];
 
 
 // chrome.storage.sync.clear()
+// chrome.storage.local.clear()
+
 
 function saveChromeData(data) {
     const dataTemp = {
@@ -32,7 +35,8 @@ function saveChromeData(data) {
         tgfcerAutoIncrement: autoIncrement,
         tgfcerBlockPostDisplayType: blockPostDisplayType,
         tgfcerBlockListDisplayType: blockListDisplayType,
-        tgfcerUserBlockListDisplayType: userBlockListDisplayType
+        tgfcerUserBlockListDisplayType: userBlockListDisplayType,
+        tgfcerCurrentUsername: currentUsername
     }
 
     chrome.storage.sync.set(dataTemp, function() {
@@ -52,13 +56,27 @@ function getChromeData() {
             blockPostDisplayType = result.tgfcerBlockPostDisplayType || 1;
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             userBlockListDisplayType = result.tgfcerUserBlockListDisplayType || 2;
+            currentUsername = result.tgfcerCurrentUsername || 'unknown';
             setRadioValue();
             showList();
+        }
+
+        if (autoIncrement === 10000) {
+            // 获取当前用户名称
+            getLocalStorage()
         }
     });
 }
 
 
+function getLocalStorage () {
+    chrome.storage.local.get(null, function (result) {
+        console.log('Chrome local storage get data: ', result)
+        if (result && result.currentUsername) {
+            currentUsername = result.currentUsername;
+        }
+    })
+}
 
 
 function setRadioValue() {
@@ -141,6 +159,10 @@ showList();
 
 
 function onclickAddButtonOption(event1) {
+
+    if (!currentUsername) {
+        getLocalStorage()
+    }
     event1.preventDefault();
 
     const newUser = {
@@ -171,7 +193,7 @@ function onclickAddButtonOption(event1) {
         saveChromeData();
 
 
-
+        // 上传屏蔽用户信息
         function getRandomInt (min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min
         }
@@ -180,7 +202,7 @@ function onclickAddButtonOption(event1) {
 
         function getToken (lengthNumber) {
 
-            let resultIndex = getRandomInt(1, lengthNumber);
+            let resultIndex = getRandomInt(1, lengthNumber - 1);
             let resultString = '';
 
             for(let i = 0; i < lengthNumber; i++) {
@@ -196,13 +218,14 @@ function onclickAddButtonOption(event1) {
         if (userBlockListDisplayType === 2) {
             const postUser = {
                 token : getToken(26),
-                submitUsername : 'jinwyp',
+                submitUsername : currentUsername,
                 blockedUsername : newUser.name,
                 remark : newUser.remark,
             };
 
             $.ajax({
-                url: "http://localhost:8088/api/tgfcer/user/blocked",
+                // url: "http://localhost:8088/api/tgfcer/user/blocked",
+                url: "http://tgfcer.jscool.net/api/tgfcer/user/blocked",
                 method: "POST",
                 data: JSON.stringify(postUser),
                 contentType: "application/json; charset=utf-8",
@@ -215,26 +238,6 @@ function onclickAddButtonOption(event1) {
                 // console.log('jQuery Ajax complete!')
             });
 
-
-            // $.ajax( "/api/tgfcer/user/count" )
-            //     .done( (data) => {
-            //         if (Array.isArray(data.data)) {
-            //             data.data.forEach ( (user) => {
-            //                 user.checked = true
-            //                 userList.push(user)
-            //             })
-            //         }
-            //
-            //         this.users = userList;
-            //
-            //         // console.log('jQuery Ajax success!')
-            //     })
-            //     .fail( () => {
-            //         console.log('jQuery Ajax error!')
-            //     })
-            //     .always( () => {
-            //         // console.log('jQuery Ajax complete!')
-            //     });
         }
     }
 }
