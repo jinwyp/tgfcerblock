@@ -77,8 +77,8 @@ function getChromeData() {
 }
 
 
-function getLocalStorage () {
-    chrome.storage.local.get(null, function (result) {
+function getLocalStorage() {
+    chrome.storage.local.get(null, function(result) {
         console.log('Chrome local storage get data: ', result)
         if (result && result.currentUsername) {
             currentUsername = result.currentUsername.trim();
@@ -95,13 +95,15 @@ function toggleHidden(element) {
     element.style.display = "none";
 }
 
-function showElement (element) {
+function showElement(element) {
     element.style.visibility = "visible";
 }
-function hideElement (element) {
+
+function hideElement(element) {
     element.style.visibility = "hidden";
 }
-function toggleShowButtonUserList () {
+
+function toggleShowButtonUserList() {
     if (userBlockListDisplayType === 2) {
         showElement(buttonBlockUserRanking)
         showElement(buttonBlockUserList)
@@ -211,7 +213,7 @@ showList();
 function onclickAddButtonSingle(event1) {
     event1.preventDefault();
 
-    if (!currentUsername) {
+    if (!currentUsername || currentUsername === 'unknown') {
         getLocalStorage()
     }
 
@@ -252,18 +254,18 @@ function onclickAddButtonSingle(event1) {
 
 
         // 上传屏蔽用户信息
-        function getRandomInt (min, max) {
+        function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min
         }
 
         const letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        function getToken (lengthNumber) {
+        function getToken(lengthNumber) {
 
             let resultIndex = getRandomInt(1, lengthNumber - 1);
             let resultString = '';
 
-            for(let i = 0; i < lengthNumber; i++) {
+            for (let i = 0; i < lengthNumber; i++) {
                 if (i === resultIndex) {
                     resultString = resultString + 'jin'
                 }
@@ -275,11 +277,11 @@ function onclickAddButtonSingle(event1) {
 
         if (userBlockListDisplayType === 2) {
             const postUser = {
-                token : getToken(26),
-                localId : newUser.id,
-                submitUsername : currentUsername,
-                blockedUsername : newUser.name,
-                remark : newUser.remark,
+                token: getToken(26),
+                localId: newUser.id,
+                submitUsername: currentUsername,
+                blockedUsername: newUser.name,
+                remark: newUser.remark,
             };
 
             $.ajax({
@@ -289,11 +291,11 @@ function onclickAddButtonSingle(event1) {
                 data: JSON.stringify(postUser),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json"
-            }).done(function( data ) {
+            }).done(function(data) {
                 console.log('jQuery Ajax success!')
-            }).fail( () => {
+            }).fail(() => {
                 console.log('jQuery Ajax error!')
-            }).always( () => {
+            }).always(() => {
                 // console.log('jQuery Ajax complete!')
             });
 
@@ -305,7 +307,7 @@ function onclickAddButtonSingle(event1) {
 function onclickAddButtonBatch(event2) {
     event2.preventDefault();
 
-    if (!currentUsername) {
+    if (!currentUsername || currentUsername === 'unknown') {
         getLocalStorage()
     }
 
@@ -328,7 +330,7 @@ function onclickAddButtonBatch(event2) {
     let usernameListExistTemp = [];
     if (usernameListTemp && usernameListTemp.length > 1) {
 
-        usernameListTemp.forEach( (username) => {
+        usernameListTemp.forEach((username) => {
 
             if (username) {
                 const newUser = {
