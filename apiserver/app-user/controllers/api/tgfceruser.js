@@ -1,23 +1,21 @@
-
-
 const { nanoid } = require('nanoid')
 const moment = require('moment');
 
-const { MBlockUsersCreateP, MBlockUsersFindOneP, MBlockUserCountFindOneP, MBlockUserCountCreateP, MBlockUserCountUpdateP, MBlockUserCountFindP  } = require('../../service/tgfcerUserModel/userService')
+const { MBlockUsersCreateP, MBlockUsersFindOneP, MBlockUserCountFindOneP, MBlockUserCountCreateP, MBlockUserCountUpdateP, MBlockUserCountFindP } = require('../../service/tgfcerUserModel/userService')
 
 
 
 /**
  * 获取屏蔽用户列表
  */
-exports.getBlockedUserList = async (ctx, next) => {
+exports.getBlockedUserList = async(ctx, next) => {
     // console.log('ctx.params.id', ctx.params.id)
     // throw new GValidationError('XXXName', 'xxxField');
 
     const body = ctx.request.body
-    // GDataChecker.token(body.token)
+        // GDataChecker.token(body.token)
 
-    ctx.body  = await MBlockUserCountFindP({})
+    ctx.body = await MBlockUserCountFindP({})
 }
 
 
@@ -27,10 +25,10 @@ exports.getBlockedUserList = async (ctx, next) => {
  * 创建一个屏蔽用户数据
  */
 
-exports.createNewBlockedUser = async (ctx, next) => {
+exports.createNewBlockedUser = async(ctx, next) => {
 
     // console.log(ctx.userAgent);
-    console.log(ctx.request.body)
+    console.log('=== ctx.request.body: ', ctx.request.body)
 
     const body = ctx.request.body
 
@@ -49,7 +47,7 @@ exports.createNewBlockedUser = async (ctx, next) => {
         createTime: moment().format(),
         submitUserIpv4: ctx.ipv4 || '',
         submitUserIpv6: ctx.ipv6 || '',
-        userAgent : ctx.header['user-agent'] || '',
+        userAgent: ctx.header['user-agent'] || '',
     }
 
 
@@ -147,23 +145,22 @@ exports.createNewBlockedUser = async (ctx, next) => {
         if (newBlockedUser.remark) {
             tempNewRemark = tempNewRemark + ',' + newBlockedUser.remark
         }
-        await MBlockUserCountUpdateP(tempQueryCount, { $set: { count: tempUserCount.count + 1, remark: tempNewRemark  } })
+        await MBlockUserCountUpdateP(tempQueryCount, { $set: { count: tempUserCount.count + 1, remark: tempNewRemark } })
 
     } else {
         await MBlockUserCountCreateP({
             blockedUsername: body.blockedUsername,
             count: 1,
-            remark : newBlockedUser.remark
+            remark: newBlockedUser.remark
         })
     }
 
     ctx.body = {
-        uuid : newBlockedUser.uuid,
-        submitUsername : newBlockedUser.submitUsername,
-        blockedUsername : newBlockedUser.blockedUsername,
-        remark : newBlockedUser.remark,
-        createTime : newBlockedUser.createTime,
+        uuid: newBlockedUser.uuid,
+        submitUsername: newBlockedUser.submitUsername,
+        blockedUsername: newBlockedUser.blockedUsername,
+        remark: newBlockedUser.remark,
+        createTime: newBlockedUser.createTime,
     }
 
 }
-
