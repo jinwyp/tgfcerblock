@@ -1,8 +1,10 @@
 
 
-const buttonOption = document.querySelector("#options");
+const buttonAbout = document.querySelector("#about");
+const buttonBlockOption = document.querySelector("#options");
+const buttonFavorite = document.querySelector("#favorite");
 
-function onclickButtonOption(event1) {
+function onclickButtonBlockOption(event1) {
     // console.log(chrome.runtime.openOptionsPage)
     if (chrome.runtime.openOptionsPage && false) {
         chrome.runtime.openOptionsPage(()=>{console.log("Chrome Extension Open Options page")});;
@@ -11,6 +13,15 @@ function onclickButtonOption(event1) {
     }
 }
 
+function onclickButtonFavorite(event1) {
+    window.open(chrome.runtime.getURL('favorite.html'));
+}
 
-buttonOption.addEventListener('click', onclickButtonOption, false);
+function onclickButtonAbout(event1) {
+    window.open('https://github.com/jinwyp/tgfcerblock');
+}
+
+buttonBlockOption.addEventListener('click', onclickButtonBlockOption, false);
+buttonFavorite.addEventListener('click', onclickButtonFavorite, false);
+buttonAbout.addEventListener('click', onclickButtonAbout, false);
 
