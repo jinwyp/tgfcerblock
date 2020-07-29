@@ -69,7 +69,7 @@ function getChromeData() {
             showList();
         }
 
-        if (autoIncrement === 10000) {
+        if (autoIncrement === 10000 || currentUsername === 'unknown') {
             // 获取当前用户名称
             getLocalStorage()
         }

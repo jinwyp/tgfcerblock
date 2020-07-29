@@ -30,21 +30,14 @@ function getChromeData() {
             userBlockListType = result.tgfcerUserBlockListDisplayType || 2;
             findUserElement()
             getCurrentUsername()
+            addWAPLinkOfWebLink()
+            rateWithCustomReason()
+            showColorWithRating()
         }
     });
 }
 
 function getCurrentUrl () {
-    // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-    //     currentUrl = tabs[0].url;
-    //     // use `url` here inside the callback because it's asynchronous!
-    //
-    //     if (currentUrl.indexOf('wap.tgfcer.com')) {
-    //         isWap = true;
-    //         console.log(isWap, currentUrl);
-    //     }
-    // });
-
     currentUrl = window.location.href;
     // use `url` here inside the callback because it's asynchronous!
 
@@ -61,7 +54,36 @@ function getCurrentUrl () {
     }
 
     // console.log(isWap, currentUrl);
+}
 
+
+function getCurrentUsername () {
+
+    if (isWap) {
+        const usernameBox = document.querySelector(".userInfo" )
+
+        if (usernameBox) {
+            const usernameTd = usernameBox.querySelectorAll("td" )
+            const username = usernameTd[1].querySelector("b" )
+
+            if (username && username.innerHTML.length > 0) {
+                currentUsername = username.innerHTML.trim()
+            }
+        }
+
+    } else {
+        const usernameLink = document.querySelector("#my b" )
+
+        if (usernameLink && usernameLink.innerHTML.length > 0) {
+            currentUsername = usernameLink.innerHTML.trim()
+        }
+    }
+
+    if (currentUsername) {
+        chrome.storage.local.set ( {currentUsername : currentUsername}, function (){
+            console.log('Chrome local storage saved data: ', currentUsername)
+        })
+    }
 }
 
 
@@ -121,20 +143,15 @@ function findUserElement () {
                         }
                     }
                 }
-
-
             })
         }
 
-
     } else {
-
 
         // 帖子页面处理
         if (blockPostType !== 1 && pageType === 2) {
             let posts = document.querySelectorAll(".mainbox.viewthread");
             posts.forEach( (post) => {
-
                 const h1Tile = post.querySelector("h1" )
                 const h1Post = post.querySelector("table" )
                 const userLink = post.querySelector("cite a" )
@@ -158,11 +175,9 @@ function findUserElement () {
         }
 
         // 列表页面处理
-
         if (blockListType !== 1 && pageType === 1) {
 
             let listForm = document.querySelector("form[name='moderate']");
-
             if (listForm) {
                 let lists = listForm.querySelectorAll("tbody");
                 lists.forEach( (list) => {
@@ -180,7 +195,6 @@ function findUserElement () {
                     }
                 })
             }
-
         }
 
     }
@@ -188,35 +202,109 @@ function findUserElement () {
 
 
 
-function getCurrentUsername () {
+
+
+
+
+function showColorWithRating() {
+    // 为 Wap 版提供“加量有激骚的回帖”功能，正激骚为红色，负激骚为绿色；（见图）
+    if (isWap) {
+        var rateRegex = /^骚\((-?\d+)\)/g;
+        var tagRateScoreList = document.getElementsByTagName('a')
+        for (let i = 0; i < tagRateScoreList.length; ++i) {
+            const tagScore = tagRateScoreList[i];
+
+            const resultScoreRegex = rateRegex.exec(tagScore.innerHTML);
+            if (resultScoreRegex && resultScoreRegex[1] !== '0') {
+
+                if (resultScoreRegex[1].indexOf('-') > -1 ) {
+                    tagScore.style.color = '#00bb00'
+                } else {
+                    tagScore.style.color = '#ff0000'
+                }
+            }
+        }
+    }
+}
+
+
+function addWAPLinkOfWebLink () {
+    // 给 WAP 帖子页面上的 所有 WEB Link 加上  Wap打开 的链接
+    // 给 WEB 帖子页面 帖子标题 增加 Wap打开 帖子链接
+
+    var regexThread = /https:\/\/club\.tgfcer\.com\/thread-([\d]+)-.+html/ig;
+    var wapLinkTpl = 'https://wap.tgfcer.com/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0';
 
     if (isWap) {
-        const usernameBox = document.querySelector(".userInfo" )
 
-        if (usernameBox) {
-            const usernameTd = usernameBox.querySelectorAll("td" )
-            const username = usernameTd[1].querySelector("b" )
+        var tags = document.getElementsByTagName('a')
+        for (let i = 0; i < tags.length; ++i) {
+            const tag = tags[i];
+            var href = tag.href || '';
+            const resultLinkRegex = regexThread.exec(href)
+            if (resultLinkRegex) {
+                var currentTid = resultLinkRegex[1];
+                var wapNewLink = wapLinkTpl.replace('TidDummy', currentTid);
 
-            if (username && username.innerHTML.length > 0) {
-                currentUsername = username.innerHTML.trim()
+                var newSpan = document.createElement('span');
+                newSpan.innerHTML = '&nbsp;&nbsp;<a href="'+ wapNewLink +'" title="">(wap打开)</a>&nbsp;';
+                tag.parentNode.insertBefore(newSpan , tag.nextSibling);
+            }
+        }
+    } else {
+        const titleEl = document.querySelector('h1')
+        const resultLinkRegex2 = regexThread.exec(currentUrl);
+        if (resultLinkRegex2) {
+            var currentTid2 = resultLinkRegex2[1];
+            var wapNewLink2 = wapLinkTpl.replace('TidDummy', currentTid2);
+
+            var newSpan2 = document.createElement('span');
+            newSpan2.innerHTML = '&nbsp;&nbsp;<a href="'+ wapNewLink2 +'" title="">(wap打开)</a>&nbsp;';
+            titleEl.append(newSpan2);
+        }
+
+    }
+}
+
+
+
+function rateWithCustomReasonClick () {
+
+    setTimeout(function (){
+        const reasonTags = document.getElementsByName('reason')
+        if (reasonTags) {
+            for (let i = 0; i < reasonTags.length; i++) {
+                const reasonInput = reasonTags[i];
+                reasonInput.removeAttribute('readonly');
             }
         }
 
-    } else {
-        const usernameLink = document.querySelector("#my b" )
-
-        if (usernameLink && usernameLink.innerHTML.length > 0) {
-            currentUsername = usernameLink.innerHTML.trim()
+        const reasonPmTags = document.getElementsByName('sendreasonpm')
+        if (reasonPmTags) {
+            for (let i = 0; i < reasonPmTags.length; i++) {
+                const reasonPmCheckbox = reasonPmTags[i];
+                reasonPmCheckbox.removeAttribute('disabled');
+            }
         }
-    }
+    }, 1000)
 
-    if (currentUsername) {
-        chrome.storage.local.set ( {currentUsername : currentUsername}, function (){
-            console.log('Chrome local storage saved data: ', currentUsername)
-        })
-    }
 }
 
+function rateWithCustomReason() {
+    // 给 WEB 帖子页面 点击评分后 让 操作原因 可以自定义填写原因, 同时可以选择是否发短消息给作者
+
+    if (!isWap) {
+
+        var tagRateList = document.getElementsByTagName('a')
+        for (let i = 0; i < tagRateList.length; ++i) {
+            const rateButton = tagRateList[i];
+            var rateLink = rateButton.href || '';
+            if (rateLink.indexOf('misc.php?action=rate&tid=') > -1) {
+                rateButton.addEventListener('click', rateWithCustomReasonClick, false);
+            }
+        }
+    }
+}
 
 
 getCurrentUrl();
