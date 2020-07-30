@@ -1,48 +1,48 @@
 {
-  "name": "Tgfcer block user",
-  "version": "1.0",
-  "manifest_version": 2,
-  "icons": {
-    "16": "images/icon64.png",
-    "32": "images/icon64.png",
-    "48": "images/icon64.png",
-    "128": "images/icon64.png"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://club.tgfcer.com/thread*",
-        "https://club.tgfcer.com/viewthread*",
-        "https://club.tgfcer.com/forum*",
-        "https://wap.tgfcer.com/index.php?action=home*",
-        "https://wap.tgfcer.com/index.php?action=thread*",
-        "https://wap.tgfcer.com/index.php?action=forum*"
-      ],
-      "js": ["content.js"]
-    }
-  ],
-  "browser_action": {
-    "default_title": "TGFCER Block User",
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "images/icon64.png",
-      "32": "images/icon64.png",
-      "48": "images/icon64.png",
-      "128": "images/icon64.png"
-    }
-  },
-  "background": {
-    "scripts": ["background.js"]
-  },
-  "options_ui": {
-    "chrome_style": true,
-    "page": "options.html"
-  },
-  "permissions": [
-    "activeTab", "tabs", "storage",
-    "https://*.tgfcer.com/*",
-    "https://*.jscool.net/*",
-    "http://*.jscool.net/*",
-    "http://*.localhost/*"
-  ]
+    "name": "Tgfcer block user",
+    "version": "1.0",
+    "manifest_version": 2,
+    "icons": {
+        "16": "images/icon64.png",
+        "32": "images/icon64.png",
+        "48": "images/icon64.png",
+        "128": "images/icon64.png"
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://club.tgfcer.com/index.php*",
+            "https://club.tgfcer.com/thread*",
+            "https://club.tgfcer.com/viewthread*",
+            "https://club.tgfcer.com/forum*",
+            "https://wap.tgfcer.com/index.php",
+            "https://wap.tgfcer.com/index.php?action=home*",
+            "https://wap.tgfcer.com/index.php?action=thread*",
+            "https://wap.tgfcer.com/index.php?action=forum*"
+        ],
+        "js": ["content.js"]
+    }],
+    "browser_action": {
+        "default_title": "TGFCER Block User",
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/icon64.png",
+            "32": "images/icon64.png",
+            "48": "images/icon64.png",
+            "128": "images/icon64.png"
+        }
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "options_ui": {
+        "chrome_style": true,
+        "page": "options.html"
+    },
+    "permissions": [
+        "activeTab", "tabs", "storage",
+        "https://*.tgfcer.com/*",
+        "https://*.jscool.net/*",
+        "http://*.jscool.net/*",
+        "http://*.localhost/*"
+    ]
 }

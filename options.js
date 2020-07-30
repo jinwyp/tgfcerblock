@@ -26,6 +26,7 @@ const userListElement = document.querySelector("#user-list");
 
 let autoIncrement = 10000;
 let currentUsername = '';
+let currentUserId = '';
 let blockPostDisplayType = 1;
 let blockListDisplayType = 1;
 let userBlockListDisplayType = 2;
@@ -44,7 +45,8 @@ function saveChromeData(data) {
         tgfcerBlockPostDisplayType: blockPostDisplayType,
         tgfcerBlockListDisplayType: blockListDisplayType,
         tgfcerUserBlockListDisplayType: userBlockListDisplayType,
-        tgfcerCurrentUsername: currentUsername
+        tgfcerCurrentUsername: currentUsername,
+        tgfcerCurrentUserId: currentUserId
     }
 
     chrome.storage.sync.set(dataTemp, function() {
@@ -65,11 +67,12 @@ function getChromeData() {
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             userBlockListDisplayType = result.tgfcerUserBlockListDisplayType || 2;
             currentUsername = result.tgfcerCurrentUsername || 'unknown';
+            currentUserId = result.tgfcercurrentUserId || '';
             setRadioValue();
             showList();
         }
 
-        if (autoIncrement === 10000 || currentUsername === 'unknown') {
+        if (autoIncrement === 10000 || currentUsername === 'unknown' || !currentUserId) {
             // 获取当前用户名称
             getLocalStorage()
         }
@@ -82,6 +85,9 @@ function getLocalStorage() {
         console.log('Chrome local storage get data: ', result)
         if (result && result.currentUsername) {
             currentUsername = result.currentUsername.trim();
+        }
+        if (result && result.currentUserId) {
+            currentUserId = result.currentUserId;
         }
     })
 }
