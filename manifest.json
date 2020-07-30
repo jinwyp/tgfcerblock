@@ -19,7 +19,7 @@
             "https://wap.tgfcer.com/index.php?action=thread*",
             "https://wap.tgfcer.com/index.php?action=forum*"
         ],
-        "js": ["content.js"]
+        "js": ["jquery-3.5.1.min.js", "content.js"]
     }],
     "browser_action": {
         "default_title": "TGFCER Block User",
