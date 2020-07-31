@@ -4,7 +4,7 @@
     // console.log("Chrome Extension content script running!")
 
     const isDebug = false;
-    let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
+    let apiPrefix = isDebug ? 'http://localhost:8088' : 'https://tgfcer.jscool.net'
 
     let blockUserList = [];
     let blockUserListArray = [];

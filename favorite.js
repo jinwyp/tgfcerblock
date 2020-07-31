@@ -2,6 +2,7 @@
 
 const userListElement = document.querySelector("#post-list");
 const buttonSearchElement = document.querySelector("#btn-search");
+const buttonClearTagElement = document.querySelector("#btn-cleartag");
 const selectSearchElement = document.querySelector("#searchtag");
 
 
@@ -37,7 +38,8 @@ function getToken(lengthNumber) {
 
 
 function saveFavoriteTagListToLocalStorage(tags) {
-    if (tags && Array.isArray(tags) && tags.length > 0) {
+    if (tags && Array.isArray(tags)) {
+
         chrome.storage.local.set({ favoritePostTagList: tags }, function() {
             console.log('Chrome local storage saved data: ', tags)
         })
@@ -262,7 +264,6 @@ function onclickEditButton(event1) {
                 }
             }
         }
-
     }
 }
 
@@ -275,3 +276,12 @@ function onClickSearchButton (event3) {
     showList()
 }
 buttonSearchElement.addEventListener('click', onClickSearchButton, false);
+
+
+function onClickClearTagButton (event4) {
+    event4.preventDefault()
+    tagList = []
+    showSelectOptions();
+    saveFavoriteTagListToLocalStorage(tagList);
+}
+buttonClearTagElement.addEventListener('click', onClickClearTagButton, false);
