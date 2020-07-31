@@ -32,6 +32,7 @@ let blockListDisplayType = 1;
 let userBlockListDisplayType = 2;
 
 let blockUserList = [];
+let tagList = [];
 
 
 // chrome.storage.sync.clear()
@@ -46,7 +47,8 @@ function saveChromeData(data) {
         tgfcerBlockListDisplayType: blockListDisplayType,
         tgfcerUserBlockListDisplayType: userBlockListDisplayType,
         tgfcerCurrentUsername: currentUsername,
-        tgfcerCurrentUserId: currentUserId
+        tgfcerCurrentUserId: currentUserId,
+        tgfcerFavoritePostTagList : tagList
     }
 
     chrome.storage.sync.set(dataTemp, function() {
@@ -67,12 +69,13 @@ function getChromeData() {
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             userBlockListDisplayType = result.tgfcerUserBlockListDisplayType || 2;
             currentUsername = result.tgfcerCurrentUsername || 'unknown';
-            currentUserId = result.tgfcercurrentUserId || '';
+            currentUserId = result.tgfcerCurrentUserId || '';
+            tagList = result.tgfcerFavoritePostTagList || [];
             setRadioValue();
             showList();
         }
 
-        if (autoIncrement === 10000 || currentUsername === 'unknown' || !currentUserId) {
+        if (autoIncrement === 10000 || currentUsername === 'unknown' || !currentUserId || tagList.length === 0) {
             // 获取当前用户名称
             getLocalStorage()
         }
@@ -88,6 +91,9 @@ function getLocalStorage() {
         }
         if (result && result.currentUserId) {
             currentUserId = result.currentUserId;
+        }
+        if (result && result.favoritePostTagList) {
+            tagList = result.favoritePostTagList;
         }
     })
 }
@@ -201,9 +207,9 @@ function showList(userId) {
 
         if (userId && userId === user.id.toString()) {
 
-            html = html + `<li class="list-group-item" id="id-${user.id}">  <input type="text" class="form-control col-sm-4 float-left" id="input-${user.id}" value="${user.name}">  <input type="text" class="form-control col-sm-4 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary btn-sm ml-4 float-left" id="save-${user.id}">保存修改</button> </li>`
+            html = html + `<li class="list-group-item" id="id-${user.id}"> <input type="text" class="form-control col-sm-4 float-left" id="input-${user.id}" value="${user.name}">  <input type="text" class="form-control col-sm-4 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary btn-sm ml-2 float-left" id="save-${user.id}">保存修改</button> </li>`
         } else {
-            html = html + `<li class="list-group-item" id="id-${user.id}">  ${user.name} | ${user.remark} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
+            html = html + `<li class="list-group-item" id="id-${user.id}"> ${user.name} | ${user.remark} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
         }
     })
 
@@ -415,7 +421,6 @@ function onclickDelButton(event1) {
                     showList();
                     saveChromeData();
                 }
-
             }
         }
 

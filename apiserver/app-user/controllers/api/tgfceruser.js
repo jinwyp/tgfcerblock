@@ -1,7 +1,19 @@
 const { nanoid } = require('nanoid')
 const moment = require('moment');
 
-const { MBlockUsersCreateP, MBlockUsersFindOneP, MBlockUserCountFindOneP, MBlockUserCountCreateP, MBlockUserCountUpdateP, MBlockUserCountFindP } = require('../../service/tgfcerUserModel/userService')
+const {
+    MBlockUsersCreateP,
+    MBlockUsersFindOneP,
+    MBlockUserCountFindOneP,
+    MBlockUserCountCreateP,
+    MBlockUserCountUpdateP,
+    MBlockUserCountFindP,
+    MUserFavoriteLinkCreateP,
+    MUserFavoriteLinkUpdateP,
+    MUserFavoriteLinkDeleteP,
+    MUserFavoriteLinkFindOneP,
+    MUserFavoriteLinkFindP
+} = require('../../service/tgfcerUserModel/userService')
 
 
 
@@ -38,7 +50,6 @@ exports.createNewBlockedUser = async(ctx, next) => {
 
 
     const newBlockedUser = {
-        token: body.token,
         localId: body.localId,
         uuid: nanoid(),
         submitUsername: body.submitUsername,
@@ -142,7 +153,7 @@ exports.createNewBlockedUser = async(ctx, next) => {
     if (tempUserCount) {
         let tempNewRemark = tempUserCount.remark;
 
-        if (newBlockedUser.remark) {
+        if (newBlockedUser.remark && tempNewRemark.indexOf('newBlockedUser.remark') === -1) {
             tempNewRemark = tempNewRemark + ',' + newBlockedUser.remark
         }
         await MBlockUserCountUpdateP(tempQueryCount, { $set: { count: tempUserCount.count + 1, remark: tempNewRemark } })
@@ -163,4 +174,183 @@ exports.createNewBlockedUser = async(ctx, next) => {
         createTime: newBlockedUser.createTime,
     }
 
+}
+
+
+
+
+
+
+
+
+/**
+ * 创建一个用户收藏的帖子
+ */
+
+exports.createNewFavoriteLink = async(ctx, next) => {
+
+    // console.log(ctx.userAgent);
+    console.log('=== ctx.request.body: ', ctx.request.body)
+
+    const body = ctx.request.body
+
+    GDataChecker.token(body.token)
+
+    GDataChecker.username(body.submitUsername, 'submitUsername')
+    GDataChecker.username(body.submitUserId, 'submitUserId')
+    GDataChecker.username(body.threadId, 'threadId')
+    GDataChecker.username(body.website, 'website')
+
+
+    const newUserFavoritePost = {
+        uuid: nanoid(),
+        submitUserId: body.submitUserId,
+        submitUsername: body.submitUsername,
+        threadTitle: body.threadTitle || '',
+        threadId: body.threadId,
+        threadTag: body.threadTag || '',
+        remark: body.remark || '',
+        url: body.url || '',
+        website: body.website || ''
+    };
+
+
+
+    if (ctx.userAgent) {
+        newUserFavoritePost.browser = ctx.userAgent.browser
+        newUserFavoritePost.browserVersion = ctx.userAgent.version
+
+        newUserFavoritePost.OSPlatform = ctx.userAgent.platform
+        newUserFavoritePost.OSVersion = ctx.userAgent.os
+
+        newUserFavoritePost.isMobile = ctx.userAgent.isMobile
+        newUserFavoritePost.isDesktop = ctx.userAgent.isDesktop
+    }
+
+    const temUserFavoriteLink = await MBlockUsersFindOneP({
+        submitUserId: body.submitUserId,
+        threadId: body.threadId,
+    });
+
+    if (temUserFavoriteLink) {
+        GDataChecker.linkExist(body.threadId, 'threadId')
+    }
+
+    // 创建用户收藏Link
+    await MUserFavoriteLinkCreateP(newUserFavoritePost)
+
+
+    ctx.body = {
+        uuid: newUserFavoritePost.uuid,
+        submitUsername: newUserFavoritePost.submitUsername,
+        submitUserId: newUserFavoritePost.submitUserId,
+        threadTitle: newUserFavoritePost.threadTitle,
+        threadId: newUserFavoritePost.threadId,
+        threadTag: newUserFavoritePost.threadTag,
+        remark: newUserFavoritePost.remark,
+        url: newUserFavoritePost.url,
+        website: newUserFavoritePost.website
+    }
+}
+
+
+/**
+ * 编辑某个用户的收藏某一个Link
+ */
+exports.updateUserFavoriteLink = async(ctx, next) => {
+
+    console.log('=== ctx.request.body: ', ctx.request.body)
+
+    const body = ctx.request.body
+    GDataChecker.username(ctx.params.uuid, 'uuid')
+
+    GDataChecker.token(body.token)
+    GDataChecker.username(body.submitUsername, 'submitUsername')
+    GDataChecker.username(body.submitUserId, 'submitUserId')
+    GDataChecker.username(body.threadId, 'threadId')
+    GDataChecker.username(body.website, 'website')
+    GDataChecker.username(body.threadTag, 'threadTag')
+
+
+    const tempQuery = {
+        uuid: ctx.params.uuid,
+        submitUserId: body.submitUserId,
+        threadId: body.threadId,
+    }
+
+    const tempUserFavoriteLink = await MUserFavoriteLinkFindOneP(tempQuery);
+    GDataChecker.linkNotFound(tempUserFavoriteLink, 'uuid')
+
+    // 更新用户收藏Link
+    await MUserFavoriteLinkUpdateP(tempQuery, { $set: { threadTag: body.threadTag, remark: body.remark || "" } })
+
+
+    ctx.body = {
+        uuid: tempUserFavoriteLink.uuid,
+        submitUsername: tempUserFavoriteLink.submitUsername,
+        submitUserId: tempUserFavoriteLink.submitUserId,
+        threadTitle: tempUserFavoriteLink.threadTitle,
+        threadId: tempUserFavoriteLink.threadId,
+        threadTag: tempUserFavoriteLink.threadTag,
+        remark: tempUserFavoriteLink.remark,
+        url: tempUserFavoriteLink.url,
+        website: tempUserFavoriteLink.website
+    }
+}
+
+exports.delUserFavoriteLink = async(ctx, next) => {
+    // console.log('ctx.params.id', ctx.params.id)
+    // throw new GValidationError('XXXName', 'xxxField');
+
+    console.log('=== ctx.request.body: ', ctx.request.body)
+
+    const body = ctx.request.body
+    GDataChecker.username(ctx.params.uuid, 'uuid')
+
+    GDataChecker.token(body.token)
+    GDataChecker.username(body.submitUserId, 'submitUserId')
+    GDataChecker.username(body.threadId, 'threadId')
+
+
+    const tempQuery = {
+        uuid: ctx.params.uuid,
+        submitUserId: body.submitUserId,
+        threadId: body.threadId,
+    }
+
+    const tempUserFavoriteLink = await MUserFavoriteLinkFindOneP(tempQuery);
+    GDataChecker.linkNotFound(tempUserFavoriteLink, 'uuid')
+
+    ctx.body = await MUserFavoriteLinkDeleteP(tempQuery)
+}
+
+
+/**
+ * 获取某个用户的收藏列表
+ */
+exports.getUserFavoriteLinkList = async(ctx, next) => {
+    // console.log('ctx.params.id', ctx.params.id)
+    // throw new GValidationError('XXXName', 'xxxField');
+
+    const query = ctx.request.query
+    GDataChecker.token(ctx.request.query.token)
+    // GDataChecker.username(body.submitUsername, 'submitUsername')
+    GDataChecker.username(ctx.request.query.uid, 'uid')
+
+
+    const tempQuery = {
+        submitUserId: ctx.request.query.uid
+    }
+
+    if (query.title) {
+        tempQuery.threadTitle = new RegExp(decodeURIComponent(query.title))
+    }
+
+    if (query && query.tag) {
+        tempQuery.threadTag = new RegExp(decodeURIComponent(query.tag))
+    }
+
+    console.log('===== Search query getUserFavoriteLinkList: ', ctx.request.query, tempQuery)
+
+    ctx.body = await MUserFavoriteLinkFindP(tempQuery)
 }

@@ -26,12 +26,14 @@ const validationName = {
 
 
 
+        linkExist : {code:1031, message:"Field validation error,  favorite link already exist", field:'threadId'},
         usernameExist : {code:1031, message:"Field validation error,  username already exist", field:'username'},
         emailExist : {code:1032, message:"Field validation error,  email already exist", field:'email'},
         mobileExist : {code:1033, message:"Field validation error, mobile phone number already exist", field:'mobilePhone'},
         mobileNotExist : {code:1034, message:"Field validation error, mobile phone number not exist", field:'mobilePhone'},
         weChatOpenIDExist : {code:1038, message:"Field validation error,  wechat OpenID already exist", field:'idWeChatOpenID'},
 
+        linkNotFound :  {code:1040, message:"User Unauthorized, user's favorite link not found", field:'uuid'},
         userNotFound :  {code:1041, message:"User Unauthorized, user not found", field:'username'},
         passwordNotMatch :  {code:1042, message:"User Unauthorized, password not match", field:'password'},
 

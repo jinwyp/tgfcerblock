@@ -122,6 +122,8 @@
             chrome.storage.local.set({ currentUsername: currentUsername }, function() {
                 // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
             })
+        } else {
+            getLocalStorage()
         }
     }
 
@@ -132,7 +134,20 @@
             chrome.storage.local.set({ currentUserId: currentUserId }, function() {
                 // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
             })
+        } else {
+            getLocalStorage()
         }
+    }
+    function getLocalStorage() {
+        chrome.storage.local.get(null, function(result) {
+            console.log('Chrome local storage get data: ', result)
+            if (result && result.currentUsername) {
+                currentUsername = result.currentUsername.trim();
+            }
+            if (result && result.currentUserId) {
+                currentUserId = result.currentUserId;
+            }
+        })
     }
 
 
@@ -427,14 +442,17 @@
             token: getToken(26),
             submitUserId: currentUserId,
             submitUsername: currentUsername,
+            threadTitle: document.title,
             threadId: threadId,
             threadTag: '',
+            website: 'tgfcer.com',
+            url: window.location.href || ''
         };
 
         // console.log(postUserFavorite)
         $.ajax({
-            // url: "http://localhost:8088/api/tgfcer/user/blocked",
-            url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
+            url: "http://localhost:8088/api/tgfcer/user/favorite",
+            // url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
             method: "POST",
             data: JSON.stringify(postUserFavorite),
             contentType: "application/json; charset=utf-8",

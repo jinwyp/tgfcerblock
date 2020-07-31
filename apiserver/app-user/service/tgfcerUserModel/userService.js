@@ -11,10 +11,60 @@ const Datastore = require('nedb')
 
 const MBlockUsers = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsers'), autoload: true, timestampData:true })
 const MBlockUserCount = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsersCount'), autoload: true, timestampData:true })
+const MUserFavoriteLink = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbUserFavoriteLink'), autoload: true, timestampData:true })
 
 
 exports.MBlockUsers = MBlockUsers
 exports.MBlockUserCount = MBlockUserCount
+exports.MUserFavoriteLink = MUserFavoriteLink
+
+
+
+exports.MUserFavoriteLinkCreateP = async function (newLink) {
+    return new Promise((resolve, reject) => {
+
+        MUserFavoriteLink.insert(newLink, function (err, newDoc) {
+            if (err) return reject(err);
+            return resolve(newDoc);
+        });
+    });
+}
+exports.MUserFavoriteLinkUpdateP = async function (query, modifyLink, options) {
+    return new Promise((resolve, reject) => {
+        options = options || {}
+        MUserFavoriteLink.update(query, modifyLink, options, function (err, newDoc) {
+            if (err) return reject(err);
+            return resolve(newDoc);
+        });
+    });
+}
+exports.MUserFavoriteLinkDeleteP = async function (query, options) {
+    return new Promise((resolve, reject) => {
+        options = options || {}
+        MUserFavoriteLink.remove(query, options, function (err, numRemoved) {
+            if (err) return reject(err);
+            return resolve(numRemoved);
+        });
+    });
+}
+exports.MUserFavoriteLinkFindOneP = async function (query) {
+    return new Promise((resolve, reject) => {
+
+        MUserFavoriteLink.findOne(query, function (err, doc) {
+            if (err) return reject(err);
+            return resolve(doc);
+        });
+    });
+}
+exports.MUserFavoriteLinkFindP = async function (query) {
+    return new Promise((resolve, reject) => {
+        query = query || {}
+        MUserFavoriteLink.find(query).sort({ createTime: -1 }).exec(function (err, docs) {
+            if (err) return reject(err);
+            return resolve(docs);
+        });
+    });
+}
 
 
 exports.MBlockUsersCreateP = async function (newBlockedUser) {
@@ -26,7 +76,6 @@ exports.MBlockUsersCreateP = async function (newBlockedUser) {
         });
     });
 }
-
 exports.MBlockUsersFindOneP = async function (query) {
     return new Promise((resolve, reject) => {
 

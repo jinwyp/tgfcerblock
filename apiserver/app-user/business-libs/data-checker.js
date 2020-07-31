@@ -143,6 +143,9 @@ let validation = {
     },
 
 
+    linkExist: function(user, field) {
+        if (user) return throw409('user.linkExist', field)
+    },
     usernameExist: function(user, field) {
         if (user) return throw409('user.usernameExist', field)
     },
@@ -209,7 +212,9 @@ let validation = {
         if (!validator.isEmail(contactPersonEmail)) return throw409('user.addressContactPersonEmail', field)
     },
 
-
+    linkNotFound: function(link, field) {
+        if (!link) return throw409('user.linkNotFound', field)
+    },
     userNotFound: function(user, field) {
         if (!user) return throw409('user.userNotFound', field)
     },
