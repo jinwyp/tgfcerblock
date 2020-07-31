@@ -5,11 +5,13 @@ const buttonSearchElement = document.querySelector("#btn-search");
 const selectSearchElement = document.querySelector("#searchtag");
 
 
-
+const isDebug = false;
+let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
 let currentUsername = '';
 let currentUserId = '';
 let userFavoriteLinkList = [];
 let tagList = [];
+
 
 
 function getRandomInt(min, max) {
@@ -123,8 +125,7 @@ function showList(uuid) {
     }
 
     $.ajax({
-        url: "http://localhost:8088/api/tgfcer/user/favorite",
-        // url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
+        url: apiPrefix + "/api/tgfcer/user/favorite",
         method: "GET",
         data: tempQuery,
         contentType: "application/json; charset=utf-8",
@@ -192,8 +193,7 @@ function onclickEditButton(event1) {
                 userFavoriteLinkList.splice(indexUser, 1);
 
                 $.ajax({
-                    url: "http://localhost:8088/api/tgfcer/user/favorite/" + isExist.uuid,
-                    // url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
+                    url: apiPrefix + "/api/tgfcer/user/favorite/" + isExist.uuid,
                     method: "DELETE",
                     data: JSON.stringify({
                         token: getToken(26),
@@ -237,8 +237,7 @@ function onclickEditButton(event1) {
                     }
 
                     $.ajax({
-                        url: "http://localhost:8088/api/tgfcer/user/favorite/" + isExist.uuid,
-                        // url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
+                        url: apiPrefix + "/api/tgfcer/user/favorite/" + isExist.uuid,
                         method: "PUT",
                         data: JSON.stringify({
                             token: getToken(26),

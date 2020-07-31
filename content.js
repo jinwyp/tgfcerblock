@@ -3,6 +3,8 @@
 
     // console.log("Chrome Extension content script running!")
 
+    const isDebug = false;
+    let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
 
     let blockUserList = [];
     let blockUserListArray = [];
@@ -451,8 +453,7 @@
 
         // console.log(postUserFavorite)
         $.ajax({
-            url: "http://localhost:8088/api/tgfcer/user/favorite",
-            // url: "http://tgfcer.jscool.net/api/tgfcer/user/favorite",
+            url: apiPrefix + "/api/tgfcer/user/favorite",
             method: "POST",
             data: JSON.stringify(postUserFavorite),
             contentType: "application/json; charset=utf-8",

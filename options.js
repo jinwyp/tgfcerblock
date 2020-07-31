@@ -24,6 +24,9 @@ const inputRemark = document.querySelector("#remark");
 const userListElement = document.querySelector("#user-list");
 
 
+const isDebug = false;
+let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
+
 let autoIncrement = 10000;
 let currentUsername = '';
 let currentUserId = '';
@@ -297,8 +300,7 @@ function onclickAddButtonSingle(event1) {
             };
 
             $.ajax({
-                // url: "http://localhost:8088/api/tgfcer/user/blocked",
-                url: "http://tgfcer.jscool.net/api/tgfcer/user/blocked",
+                url: apiPrefix + "/api/tgfcer/user/blocked",
                 method: "POST",
                 data: JSON.stringify(postUser),
                 contentType: "application/json; charset=utf-8",
