@@ -1,17 +1,15 @@
-
-
 /**
  * Created by jin on 8/31/17.
  */
 
-const path      = require('path');
+const path = require('path');
 
 const Datastore = require('nedb')
 
 
-const MBlockUsers = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsers'), autoload: true, timestampData:true })
-const MBlockUserCount = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsersCount'), autoload: true, timestampData:true })
-const MUserFavoriteLink = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbUserFavoriteLink'), autoload: true, timestampData:true })
+const MBlockUsers = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsers'), autoload: true, timestampData: true })
+const MBlockUserCount = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbBlockUsersCount'), autoload: true, timestampData: true })
+const MUserFavoriteLink = new Datastore({ filename: path.join(GConfig.pathDB, 'nedbUserFavoriteLink'), autoload: true, timestampData: true })
 
 
 exports.MBlockUsers = MBlockUsers
@@ -20,46 +18,46 @@ exports.MUserFavoriteLink = MUserFavoriteLink
 
 
 
-exports.MUserFavoriteLinkCreateP = async function (newLink) {
+exports.MUserFavoriteLinkCreateP = async function(newLink) {
     return new Promise((resolve, reject) => {
 
-        MUserFavoriteLink.insert(newLink, function (err, newDoc) {
+        MUserFavoriteLink.insert(newLink, function(err, newDoc) {
             if (err) return reject(err);
             return resolve(newDoc);
         });
     });
 }
-exports.MUserFavoriteLinkUpdateP = async function (query, modifyLink, options) {
+exports.MUserFavoriteLinkUpdateP = async function(query, modifyLink, options) {
     return new Promise((resolve, reject) => {
         options = options || {}
-        MUserFavoriteLink.update(query, modifyLink, options, function (err, newDoc) {
+        MUserFavoriteLink.update(query, modifyLink, options, function(err, newDoc) {
             if (err) return reject(err);
             return resolve(newDoc);
         });
     });
 }
-exports.MUserFavoriteLinkDeleteP = async function (query, options) {
+exports.MUserFavoriteLinkDeleteP = async function(query, options) {
     return new Promise((resolve, reject) => {
         options = options || {}
-        MUserFavoriteLink.remove(query, options, function (err, numRemoved) {
+        MUserFavoriteLink.remove(query, options, function(err, numRemoved) {
             if (err) return reject(err);
             return resolve(numRemoved);
         });
     });
 }
-exports.MUserFavoriteLinkFindOneP = async function (query) {
+exports.MUserFavoriteLinkFindOneP = async function(query) {
     return new Promise((resolve, reject) => {
 
-        MUserFavoriteLink.findOne(query, function (err, doc) {
+        MUserFavoriteLink.findOne(query, function(err, doc) {
             if (err) return reject(err);
             return resolve(doc);
         });
     });
 }
-exports.MUserFavoriteLinkFindP = async function (query) {
+exports.MUserFavoriteLinkFindP = async function(query) {
     return new Promise((resolve, reject) => {
         query = query || {}
-        MUserFavoriteLink.find(query).sort({ createTime: -1 }).exec(function (err, docs) {
+        MUserFavoriteLink.find(query).sort({ createdAt: -1 }).exec(function(err, docs) {
             if (err) return reject(err);
             return resolve(docs);
         });
@@ -67,19 +65,19 @@ exports.MUserFavoriteLinkFindP = async function (query) {
 }
 
 
-exports.MBlockUsersCreateP = async function (newBlockedUser) {
+exports.MBlockUsersCreateP = async function(newBlockedUser) {
     return new Promise((resolve, reject) => {
 
-        MBlockUsers.insert(newBlockedUser, function (err, newDoc) {
+        MBlockUsers.insert(newBlockedUser, function(err, newDoc) {
             if (err) return reject(err);
             return resolve(newDoc);
         });
     });
 }
-exports.MBlockUsersFindOneP = async function (query) {
+exports.MBlockUsersFindOneP = async function(query) {
     return new Promise((resolve, reject) => {
 
-        MBlockUsers.findOne(query, function (err, doc) {
+        MBlockUsers.findOne(query, function(err, doc) {
             if (err) return reject(err);
             return resolve(doc);
         });
@@ -88,43 +86,42 @@ exports.MBlockUsersFindOneP = async function (query) {
 
 
 
-exports.MBlockUserCountCreateP = async function (newBlockedUserCount) {
+exports.MBlockUserCountCreateP = async function(newBlockedUserCount) {
     return new Promise((resolve, reject) => {
 
-        MBlockUserCount.insert(newBlockedUserCount, function (err, newDoc) {
+        MBlockUserCount.insert(newBlockedUserCount, function(err, newDoc) {
             if (err) return reject(err);
             return resolve(newDoc);
         });
     });
 }
 
-exports.MBlockUserCountUpdateP = async function (query, modifyBlockedUserCount, options) {
+exports.MBlockUserCountUpdateP = async function(query, modifyBlockedUserCount, options) {
     return new Promise((resolve, reject) => {
         options = options || {}
-        MBlockUserCount.update(query, modifyBlockedUserCount, options, function (err, newDoc) {
+        MBlockUserCount.update(query, modifyBlockedUserCount, options, function(err, newDoc) {
             if (err) return reject(err);
             return resolve(newDoc);
         });
     });
 }
 
-exports.MBlockUserCountFindOneP = async function (query) {
+exports.MBlockUserCountFindOneP = async function(query) {
     return new Promise((resolve, reject) => {
 
-        MBlockUserCount.findOne(query, function (err, doc) {
+        MBlockUserCount.findOne(query, function(err, doc) {
             if (err) return reject(err);
             return resolve(doc);
         });
     });
 }
 
-exports.MBlockUserCountFindP = async function (query) {
+exports.MBlockUserCountFindP = async function(query) {
     return new Promise((resolve, reject) => {
         query = query || {}
-        MBlockUserCount.find(query).sort({ count: -1 }).exec(function (err, docs) {
+        MBlockUserCount.find(query).sort({ count: -1 }).exec(function(err, docs) {
             if (err) return reject(err);
             return resolve(docs);
         });
     });
 }
-
