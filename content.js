@@ -140,6 +140,7 @@
             getLocalStorage()
         }
     }
+
     function getLocalStorage() {
         chrome.storage.local.get(null, function(result) {
             console.log('Chrome local storage get data: ', result)
@@ -462,7 +463,7 @@
             alert('收藏成功')
                 // console.log('jQuery Ajax success!')
         }).fail(() => {
-            alert('收藏失败')
+            alert('收藏失败, 已收藏过')
                 // console.log('jQuery Ajax error!')
         }).always(() => {
             // console.log('jQuery Ajax complete!')
