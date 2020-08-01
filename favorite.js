@@ -58,7 +58,8 @@ function getLocalStorage() {
         }
 
         showList();
-        showSelectOptions()
+        showSelectOptions();
+        delegateSelectTag();
     })
 }
 
@@ -107,6 +108,20 @@ function showSelectOptions() {
     })
 }
 
+
+function delegateSelectTag() {
+    const tempSelectJQELement = $(userListElement);
+    tempSelectJQELement.delegate('select', 'change', function() {
+        const tempThis = $(this);
+
+        let currentIdTemp = '';
+        if (tempThis.attr('id')) {
+            currentIdTemp = tempThis.attr('id').slice(7);
+        }
+        document.querySelector("#inputtag-" + currentIdTemp.toString()).value = tempThis.children('option:selected').val();
+    });
+}
+
 function showList(uuid) {
 
     const tempQuery = {
@@ -139,7 +154,17 @@ function showList(uuid) {
                 userFavoriteLinkList.forEach((post) => {
 
                     if (uuid && uuid === post.uuid) {
-                        tempHtml = tempHtml + `<li class="list-group-item" id="id-${post.uuid}"> <span class="float-left mr-2">${post.threadTitle}</span> <input type="text" class="form-control col-sm-4 float-left" id="inputtag-${post.uuid}" value="${post.threadTag}" placeholder="请填写分类"> <input type="text" class="form-control col-sm-4 float-left ml-1" id="inputremark-${post.uuid}" value="${post.remark}" placeholder="请填写备注"> <button class="btn btn-outline-primary btn-sm ml-2 float-left" id="save-${post.uuid}">保存修改</button> </li>`
+                        let tempOptonsHtml = `<option value="">请选择分类</option>`
+                        tagList.forEach((tag) => {
+
+                            if (tag === post.threadTag) {
+                                tempOptonsHtml = tempOptonsHtml + `<option value="${tag}" selected>${tag}</option>`
+                            } else {
+                                tempOptonsHtml = tempOptonsHtml + `<option value="${tag}">${tag}</option>`
+                            }
+                        })
+
+                        tempHtml = tempHtml + `<li class="list-group-item" id="id-${post.uuid}"> <span class="float-left mr-2">${post.threadTitle}</span> <select class="form-control float-left col-sm-1" id="select-${post.uuid}"> ${tempOptonsHtml}</select> <input type="text" class="form-control col-sm-1 float-left" id="inputtag-${post.uuid}" value="${post.threadTag}" placeholder="请填写分类"> <input type="text" class="form-control col-sm-3 float-left ml-1" id="inputremark-${post.uuid}" value="${post.remark}" placeholder="请填写备注"> <button class="btn btn-outline-primary btn-sm ml-2 float-left" id="save-${post.uuid}">保存修改</button> </li>`
                     } else {
                         tempHtml = tempHtml + `<li class="list-group-item" id="id-${post.uuid}"> <a target="_blank" href="${post.url}">${post.threadTitle}</a> | 分类: ${post.threadTag || '暂无'}  | 备注: ${post.remark || '暂无'} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${post.uuid}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${post.uuid}">删除</button> </li>`
                     }
@@ -156,8 +181,6 @@ function showList(uuid) {
         .always(() => {
             // console.log('jQuery Ajax complete!')
         });
-
-
 }
 
 
@@ -218,6 +241,7 @@ function onclickEditButton(event1) {
                 if (isEditSave === "edit-") {
                     // Edit show input
                     showList(currentId);
+
                 } else {
                     // Edit save
                     isExist.threadTag = document.querySelector("#inputtag-" + currentId.toString()).value || '';
