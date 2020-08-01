@@ -227,7 +227,7 @@ exports.createNewFavoriteLink = async(ctx, next) => {
         newUserFavoritePost.isDesktop = ctx.userAgent.isDesktop
     }
 
-    const temUserFavoriteLink = await MBlockUsersFindOneP({
+    const temUserFavoriteLink = await MUserFavoriteLinkFindOneP({
         submitUserId: body.submitUserId,
         threadId: body.threadId,
     });
@@ -334,7 +334,7 @@ exports.getUserFavoriteLinkList = async(ctx, next) => {
 
     const query = ctx.request.query
     GDataChecker.token(ctx.request.query.token)
-    // GDataChecker.username(body.submitUsername, 'submitUsername')
+        // GDataChecker.username(body.submitUsername, 'submitUsername')
     GDataChecker.username(ctx.request.query.uid, 'uid')
 
 
