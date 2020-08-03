@@ -35,34 +35,24 @@ function getToken(lengthNumber) {
 }
 
 
-function saveFavoriteTagListToLocalStorage(tags) {
+function saveFavoriteTagListToSyncStorage(tags) {
     if (tags && Array.isArray(tags)) {
-
-        chrome.storage.local.set({ favoritePostTagList: tags }, function() {
-            console.log('Chrome local storage saved data: ', tags)
-        })
+        chrome.storage.sync.set({ tgfcerFavoritePostTagList: tags }, function() {
+            console.log(`Chrome Sync storage saved data: `, tags);
+        });
     }
 }
 
-function getLocalStorage() {
-    chrome.storage.local.get(null, function(result) {
-        console.log('Chrome local storage get data: ', result)
-        if (result && result.currentUsername) {
-            currentUsername = result.currentUsername.trim();
-        }
-        if (result && result.currentUserId) {
-            currentUserId = result.currentUserId;
-        }
-        if (result && result.favoritePostTagList) {
-            tagList = result.favoritePostTagList;
-        }
-
-        showList();
-        showSelectOptions();
-        delegateSelectTag();
-    })
+function saveUserFavoriteLinkListToSyncStorage(linkList) {
+    if (linkList && Array.isArray(linkList)) {
+        const linkListTemp = linkList.map(link => {
+            return link.threadId
+        })
+        chrome.storage.sync.set({ tgfcerUserFavoriteLinkIdList: linkListTemp }, function() {
+            console.log('Chrome Sync storage saved data: ', linkListTemp)
+        })
+    }
 }
-
 
 function getChromeData() {
     chrome.storage.sync.get(null, function(result) {
@@ -75,14 +65,9 @@ function getChromeData() {
             tagList = result.tgfcerFavoritePostTagList || [];
         }
 
-        if (!currentUsername || !currentUserId || tagList.length === 0) {
-            // 获取当前用户名称
-            getLocalStorage()
-        } else {
-            showList();
-            showSelectOptions()
-        }
-
+        showList();
+        showSelectOptions();
+        delegateSelectTag();
     });
 }
 
@@ -171,6 +156,8 @@ function showList(uuid) {
                 })
 
                 userListElement.innerHTML = tempHtml;
+
+                saveUserFavoriteLinkListToSyncStorage(userFavoriteLinkList)
             }
 
             // console.log('jQuery Ajax success!')
@@ -257,7 +244,7 @@ function onclickEditButton(event1) {
                     if (tagList.indexOf(isExist.threadTag) === -1) {
                         tagList.push(isExist.threadTag);
                         showSelectOptions();
-                        saveFavoriteTagListToLocalStorage(tagList);
+                        saveFavoriteTagListToSyncStorage(tagList);
                     }
 
                     $.ajax({
@@ -304,6 +291,6 @@ function onClickClearTagButton(event4) {
     event4.preventDefault()
     tagList = []
     showSelectOptions();
-    saveFavoriteTagListToLocalStorage(tagList);
+    saveFavoriteTagListToSyncStorage(tagList);
 }
 buttonClearTagElement.addEventListener('click', onClickClearTagButton, false);

@@ -51,7 +51,7 @@ function saveChromeData(data) {
         tgfcerUserBlockListDisplayType: userBlockListDisplayType,
         tgfcerCurrentUsername: currentUsername,
         tgfcerCurrentUserId: currentUserId,
-        tgfcerFavoritePostTagList : tagList
+        tgfcerFavoritePostTagList: tagList
     }
 
     chrome.storage.sync.set(dataTemp, function() {

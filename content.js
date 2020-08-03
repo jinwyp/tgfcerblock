@@ -6,6 +6,8 @@
     const isDebug = false;
     let apiPrefix = isDebug ? 'http://localhost:8088' : 'https://tgfcer.jscool.net'
 
+
+    let userFavoriteLinkIdList = [];
     let blockUserList = [];
     let blockUserListArray = [];
     let blockPostType = 1;
@@ -29,6 +31,7 @@
                 blockPostType = result.tgfcerBlockPostDisplayType || 1;
                 blockListType = result.tgfcerBlockListDisplayType || 1;
                 userBlockListType = result.tgfcerUserBlockListDisplayType || 2;
+                userFavoriteLinkIdList = result.tgfcerUserFavoriteLinkIdList || [];
 
                 getCurrentUsername()
                 getCurrentUserId()
@@ -94,8 +97,6 @@
                     }
                 }
             }
-
-
         } else {
             const usernameLinkB = document.querySelector("#my b")
             const usernameLink = document.querySelector("#my")
@@ -124,6 +125,9 @@
             chrome.storage.local.set({ currentUsername: currentUsername }, function() {
                 // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
             })
+            chrome.storage.sync.set({ tgfcerCurrentUsername: currentUsername }, function() {
+                // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
+            })
         } else {
             getLocalStorage()
         }
@@ -134,6 +138,9 @@
         if (tempUserInfo && tempUserInfo.currentUserId) {
             currentUserId = tempUserInfo.currentUserId;
             chrome.storage.local.set({ currentUserId: currentUserId }, function() {
+                // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
+            })
+            chrome.storage.sync.set({ tgfcerCurrentUserId: currentUserId }, function() {
                 // console.log('Chrome local storage saved data: ', currentUsername, currentUserId)
             })
         } else {
@@ -492,6 +499,10 @@
                             newEleFavoriteWap.innerHTML = '用插件收藏';
                             newEleFavoriteWap.href = "#";
                             newEleFavoriteWap.setAttribute("id", "addToFavoritePlugin_" + currentThreadId);
+
+                            if (userFavoriteLinkIdList.indexOf(currentThreadId) > -1) {
+                                newEleFavoriteWap.innerHTML = '已收藏';
+                            }
                             tagFavoriteWap.parentNode.insertBefore(newEleFavoriteWap, tagFavoriteWap);
 
                             var newEleFavoriteSpanWap = document.createElement('span');
@@ -517,6 +528,10 @@
                     newEleFavorite.innerHTML = '用插件收藏';
                     newEleFavorite.href = "#";
                     newEleFavorite.setAttribute("id", "addToFavoritePlugin_" + currentThreadId);
+
+                    if (userFavoriteLinkIdList.indexOf(currentThreadId) > -1) {
+                        newEleFavorite.innerHTML = '已收藏';
+                    }
                     linkFavorite.parentNode.insertBefore(newEleFavorite, linkFavorite);
                     newEleFavorite.addEventListener('click', addPostToFavoriteClick, false);
                 }
@@ -526,7 +541,9 @@
     }
 
     getCurrentUrl();
+    getLocalStorage();
     getChromeData()
+
 
 
 
