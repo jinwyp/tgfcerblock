@@ -35,7 +35,7 @@ let blockListDisplayType = 1;
 let userBlockListDisplayType = 2;
 
 let blockUserList = [];
-let tagList = [];
+let remarkList = [];
 
 
 // chrome.storage.sync.clear()
@@ -49,36 +49,38 @@ function saveChromeData(data) {
         tgfcerBlockPostDisplayType: blockPostDisplayType,
         tgfcerBlockListDisplayType: blockListDisplayType,
         tgfcerUserBlockListDisplayType: userBlockListDisplayType,
+        tgfcerUserBlockListRemarkList: remarkList,
         tgfcerCurrentUsername: currentUsername,
-        tgfcerCurrentUserId: currentUserId,
-        tgfcerFavoritePostTagList: tagList
+        tgfcerCurrentUserId: currentUserId
     }
 
     chrome.storage.sync.set(dataTemp, function() {
-        console.log(`Chrome.storage is set to `, dataTemp);
+        console.log(`Chrome sync storage save data:  `, dataTemp);
     });
 }
 
 function getChromeData() {
     chrome.storage.sync.get(null, function(result) {
-        console.log(`Chrome.storage get currently is `, result);
+        console.log(`Chrome sync storage get currently is `, result);
 
         if (result) {
             // callback (null, result[key])
 
             blockUserList = result.tgfcerBlockUsers || [];
+            remarkList = result.tgfcerUserBlockListRemarkList || [];
             autoIncrement = result.tgfcerAutoIncrement || 10000;
             blockPostDisplayType = result.tgfcerBlockPostDisplayType || 1;
             blockListDisplayType = result.tgfcerBlockListDisplayType || 1;
             userBlockListDisplayType = result.tgfcerUserBlockListDisplayType || 2;
             currentUsername = result.tgfcerCurrentUsername || 'unknown';
             currentUserId = result.tgfcerCurrentUserId || '';
-            tagList = result.tgfcerFavoritePostTagList || [];
+
             setRadioValue();
             showList();
+            delegateSelectTag();
         }
 
-        if (autoIncrement === 10000 || currentUsername === 'unknown' || !currentUserId || tagList.length === 0) {
+        if (autoIncrement === 10000 || currentUsername === 'unknown' || !currentUserId) {
             // 获取当前用户名称
             getLocalStorage()
         }
@@ -94,9 +96,6 @@ function getLocalStorage() {
         }
         if (result && result.currentUserId) {
             currentUserId = result.currentUserId;
-        }
-        if (result && result.favoritePostTagList) {
-            tagList = result.favoritePostTagList;
         }
     })
 }
@@ -202,6 +201,21 @@ buttonBlockUserRanking.addEventListener('click', onclickBlockUserRankingButton, 
 buttonBlockUserList.addEventListener('click', onclickBlockUserListButton, false);
 
 
+
+function delegateSelectTag() {
+    const tempSelectJQELement = $(userListElement);
+    tempSelectJQELement.delegate('select', 'change', function() {
+        const tempThis = $(this);
+
+        let currentIdTemp = '';
+        if (tempThis.attr('id')) {
+            currentIdTemp = tempThis.attr('id').slice(7);
+        }
+        document.querySelector("#inputremark-" + currentIdTemp.toString()).value = tempThis.children('option:selected').val();
+    });
+}
+
+
 function showList(userId) {
 
     let html = ""
@@ -210,7 +224,17 @@ function showList(userId) {
 
         if (userId && userId === user.id.toString()) {
 
-            html = html + `<li class="list-group-item" id="id-${user.id}"> <input type="text" class="form-control col-sm-4 float-left" id="input-${user.id}" value="${user.name}">  <input type="text" class="form-control col-sm-4 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary btn-sm ml-2 float-left" id="save-${user.id}">保存修改</button> </li>`
+            let tempOptonsHtml = `<option value="">请选择分类</option>`
+            remarkList.forEach((tag) => {
+
+                if (tag === user.remark) {
+                    tempOptonsHtml = tempOptonsHtml + `<option value="${tag}" selected>${tag}</option>`
+                } else {
+                    tempOptonsHtml = tempOptonsHtml + `<option value="${tag}">${tag}</option>`
+                }
+            })
+
+            html = html + `<li class="list-group-item" id="id-${user.id}"> <input type="text" class="form-control col-sm-3 float-left mr-3" id="input-${user.id}" value="${user.name}"> <select class="form-control float-left col-sm-1" id="select-${user.id}"> ${tempOptonsHtml}</select> <input type="text" class="form-control col-sm-2 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary ml-2 float-left" id="save-${user.id}">保存修改</button> </li>`
         } else {
             html = html + `<li class="list-group-item" id="id-${user.id}"> ${user.name} | ${user.remark} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
         }
@@ -420,6 +444,12 @@ function onclickDelButton(event1) {
                     // Edit save
                     isExist.name = document.querySelector("#input-" + currentId.toString()).value
                     isExist.remark = document.querySelector("#inputremark-" + currentId.toString()).value
+
+
+                    if (remarkList.indexOf(isExist.remark) === -1) {
+                        remarkList.push(isExist.remark);
+                    }
+
                     showList();
                     saveChromeData();
                 }
