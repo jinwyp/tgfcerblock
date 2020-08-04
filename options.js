@@ -234,7 +234,7 @@ function showList(userId) {
                 }
             })
 
-            html = html + `<li class="list-group-item" id="id-${user.id}"> <input type="text" class="form-control col-sm-3 float-left mr-3" id="input-${user.id}" value="${user.name}"> <select class="form-control float-left col-sm-1" id="select-${user.id}"> ${tempOptonsHtml}</select> <input type="text" class="form-control col-sm-2 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary ml-2 float-left" id="save-${user.id}">保存修改</button> </li>`
+            html = html + `<li class="list-group-item" id="id-${user.id}"> <input type="text" class="form-control col-sm-3 float-left mr-3" id="input-${user.id}" value="${user.name}"> <select class="form-control float-left col-sm-2" id="select-${user.id}"> ${tempOptonsHtml}</select> <input type="text" class="form-control col-sm-3 float-left ml-1" id="inputremark-${user.id}" value="${user.remark}"> <button class="btn btn-outline-primary ml-2 float-left" id="save-${user.id}">保存修改</button> </li>`
         } else {
             html = html + `<li class="list-group-item" id="id-${user.id}"> ${user.name} | ${user.remark} <button class="btn btn-outline-primary btn-sm ml-4" id="edit-${user.id}">编辑</button> <button class="btn btn-outline-danger btn-sm" id="dele-${user.id}">删除</button> </li>`
         }
