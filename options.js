@@ -224,7 +224,7 @@ function showList(userId) {
 
         if (userId && userId === user.id.toString()) {
 
-            let tempOptonsHtml = `<option value="">请选择分类</option>`
+            let tempOptonsHtml = `<option value="">请选择备注</option>`
             remarkList.forEach((tag) => {
 
                 if (tag === user.remark) {
