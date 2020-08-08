@@ -153,8 +153,13 @@ exports.createNewBlockedUser = async(ctx, next) => {
     if (tempUserCount) {
         let tempNewRemark = tempUserCount.remark;
 
-        if (newBlockedUser.remark && tempNewRemark.indexOf('newBlockedUser.remark') === -1) {
-            tempNewRemark = tempNewRemark + ',' + newBlockedUser.remark
+        if (newBlockedUser.remark && tempNewRemark.indexOf(newBlockedUser.remark) === -1) {
+            if (tempNewRemark) {
+                tempNewRemark = tempNewRemark + ',' + newBlockedUser.remark
+            } else {
+                tempNewRemark = newBlockedUser.remark
+            }
+
         }
         await MBlockUserCountUpdateP(tempQueryCount, { $set: { count: tempUserCount.count + 1, remark: tempNewRemark } })
 
