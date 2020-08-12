@@ -1,0 +1,38 @@
+{
+    "name": "Tgfcer block user",
+    "version": "1.0",
+    "manifest_version": 2,
+    "icons": {
+        "48": "images/icon64.png",
+        "96": "images/icon64.png"
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://club.tgfcer.com/index.php*",
+            "https://club.tgfcer.com/thread*",
+            "https://club.tgfcer.com/viewthread*",
+            "https://club.tgfcer.com/forum*",
+            "https://wap.tgfcer.com/index.php",
+            "https://wap.tgfcer.com/index.php?action=home*",
+            "https://wap.tgfcer.com/index.php?action=thread*",
+            "https://wap.tgfcer.com/index.php?action=forum*"
+        ],
+        "js": ["jquery-3.5.1.min.js", "content.js"]
+    }],
+    "browser_action": {
+        "default_title": "TGFCER Block User",
+        "default_popup": "popup.html",
+        "default_icon": "images/icon64.png"
+    },
+    "options_ui": {
+        "page": "options.html",
+        "browser_style": false
+    },
+    "permissions": [
+        "activeTab", "tabs", "storage",
+        "https://*.tgfcer.com/*",
+        "https://*.jscool.net/*",
+        "http://*.jscool.net/*",
+        "http://*.localhost/*"
+    ]
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="./bootstrap.min.css">
+
+    <title>TGFCER Block User Options</title>
+
+    <style>
+        .main {
+            margin: 10px 5px;
+        }
+        
+        .main h4 {
+            margin: 20px 0px;
+        }
+        
+        #btnBlockUserRanking,
+        #btnBlockUserList {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container main">
+
+        <h4>设置TGFCER 屏蔽的用户名列表</h4>
+
+        <form id="formType" class="mt-4 ">
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label>帖子页:</label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio1" value="1">
+                        <label class="form-check-label" for="postRadio1">不处理, 帖子页面正常显示</label>
+                    </div>
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio2" value="2">
+                        <label class="form-check-label" for="postRadio2">隐藏文字（该楼层回帖文字改成与背景色相同)</label>
+                    </div>
+                    <div class="form-check ">
+                        <input class="form-check-input" type="radio" name="postRadioOptions" id="postRadio3" value="3">
+                        <label class="form-check-label" for="postRadio3">删除 (该楼回复直接不显示）</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-1">
+                    <label>列表页:</label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio1" value="1">
+                        <label class="form-check-label" for="listRadio1">不处理, 列表页面正常显示</label>
+                    </div>
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio2" value="2">
+                        <label class="form-check-label" for="listRadio2">隐藏文字（该帖子标题文字改成与背景色相同）</label>
+                    </div>
+                    <div class="form-check ">
+                        <input class="form-check-input" type="radio" name="listRadioOptions" id="listRadio3" value="3">
+                        <label class="form-check-label" for="listRadio3">删除 (该帖子在列表中直接不显示）</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <label>是否开启屏蔽用户排行榜:</label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="userBlockedRadioOptions" id="userBlockedRadio1" value="1">
+                        <label class="form-check-label" for="userBlockedRadio1">关闭</label>
+                    </div>
+                    <div class="form-check  ">
+                        <input class="form-check-input" type="radio" name="userBlockedRadioOptions" id="userBlockedRadio2" value="2">
+                        <label class="form-check-label" for="userBlockedRadio2">开启（需要上传你的屏蔽用户信息）</label>
+
+                        <button type="button" class="btn btn-outline-info btn-sm" id="btnBlockUserRanking">查看屏蔽用户排行榜</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="btnBlockUserList">返回管理屏蔽用户列表</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="mt-3" id="blockUserList">
+            <h4>TGFCER 管理屏蔽用户列表</h4>
+
+            <form id="form" class="mt-3">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control " id="username" placeholder="添加新屏蔽的用户名">
+                        <div class="invalid-feedback" id="btnInputError">
+                            用户为空或已存在!
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control " id="remark" placeholder="备注或屏蔽理由">
+                        <div class="invalid-feedback">
+                            用户为空或已存在!
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-outline-dark" id="user-add">添加单个</button>
+                        <button class="btn btn-outline-dark" id="user-add-batch">导入(逗号,分隔多个用户名)</button>
+                    </div>
+
+                </div>
+            </form>
+
+            <ul class="list-group" id="user-list">
+                <li class="list-group-item"> <button class="btn btn-outline-primary btn-sm">编辑</button> <button class="btn-outline-danger btn-sm">删除</button> </li>
+            </ul>
+
+        </div>
+
+
+        <div class="mt-3" id="blockUserRanking" style="display: none;">
+            <iframe id="inlineFrame" width="100%" height="2000" frameborder="0" src="http://tgfcer.jscool.net/web/tgfcer"></iframe>
+        </div>
+
+    </div>
+
+
+    <script src="./jquery-3.5.1.min.js"></script>
+    <script src="./options.js"></script>
+
+
+</body>
+
+</html>
