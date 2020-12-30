@@ -314,8 +314,8 @@
         // 给 WEB 帖子页面 帖子标题 增加 Wap打开 帖子链接
 
         // https://club.tgfcer.com/viewthread.php?tid=8318646&extra=&page=3
-        var regexThread = /https:\/\/club\.tgfcer\.com\/thread-([\d]+)-.+html/ig;
-        var regexThread2 = /https:\/\/club\.tgfcer\.com\/viewthread\.php\?tid=([\d]+)/ig;
+        var regexThread = /https:\/\/(?:club|s)\.tgfcer\.com\/thread-([\d]+)-.+html/ig;
+        var regexThread2 = /https:\/\/(?:club|s)\.tgfcer\.com\/viewthread\.php\?tid=([\d]+)/ig;
 
         var wapLinkTpl = 'https://wap.tgfcer.com/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0';
 

@@ -8,10 +8,18 @@
     },
     "content_scripts": [{
         "matches": [
+            "https://s.tgfcer.com/index.php*",
+            "https://s.tgfcer.com/thread*",
+            "https://s.tgfcer.com/viewthread*",
+            "https://s.tgfcer.com/forum*",
             "https://club.tgfcer.com/index.php*",
             "https://club.tgfcer.com/thread*",
             "https://club.tgfcer.com/viewthread*",
             "https://club.tgfcer.com/forum*",
+            "https://s.tgfcer.com/wap/index.php",
+            "https://s.tgfcer.com/wap/index.php?action=home*",
+            "https://s.tgfcer.com/wap/index.php?action=thread*",
+            "https://s.tgfcer.com/wap/index.php?action=forum*",
             "https://wap.tgfcer.com/index.php",
             "https://wap.tgfcer.com/index.php?action=home*",
             "https://wap.tgfcer.com/index.php?action=thread*",
