@@ -17,6 +17,7 @@
     let currentUserId = '';
     let currentUrl = '';
     let isWap = false;
+    let isSTg = false;
     let pageType = 0;
 
 
@@ -133,9 +134,14 @@
         currentUrl = window.location.href;
         // use `url` here inside the callback because it's asynchronous!
 
-        if (currentUrl.indexOf('wap.tgfcer.com') > -1) {
+        if (currentUrl.indexOf('wap.tgfcer.com') > -1 || currentUrl.indexOf('s.tgfcer.com/wap') > -1) {
             isWap = true;
         }
+
+        if (currentUrl.indexOf('s.tgfcer.com') > -1) {
+            isSTg = true;
+        }
+
 
         if (currentUrl.indexOf('forum') > -1) {
             pageType = 1; // list page
@@ -317,20 +323,27 @@
                     const tag = tags[i];
                     var href = tag.href || '';
                     const resultLinkRegex = regexThread.exec(href)
-                    if (resultLinkRegex) {
-                        var wapNewLink1 = wapLinkTpl.replace('TidDummy', resultLinkRegex[1]);
 
-                        var newSpan1 = document.createElement('span');
-                        newSpan1.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLink1 + '" title="">(wap打开)</a>&nbsp;';
-                        tag.parentNode.insertBefore(newSpan1, tag.nextSibling);
-                    }
+
                     const resultLinkRegex2 = regexThread2.exec(href)
+
                     if (resultLinkRegex2) {
                         var wapNewLink2 = wapLinkTpl.replace('TidDummy', resultLinkRegex2[1]);
-
+                        if (isSTg) {
+                            wapNewLink2 = wapLinkTpl2.replace('TidDummy', resultLinkRegex2[1]);
+                        }
                         var newSpan2 = document.createElement('span');
                         newSpan2.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLink2 + '" title="">(wap打开)</a>&nbsp;';
                         tag.parentNode.insertBefore(newSpan2, tag.nextSibling);
+
+                        var wapNewLinkS2 = wapLinkTplS3.replace('TidDummy', resultLinkRegex2[1]);
+
+                        if (isSTg) {
+                            var newSpanS2 = document.createElement('span');
+                            newSpanS2.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLinkS2 + '" title="">(web打开)</a>&nbsp;';
+                            tag.parentNode.insertBefore(newSpanS2, tag.nextSibling);
+                        }
+
                     }
                 }
             } else {
@@ -338,6 +351,9 @@
                 const resultLinkWebRegex1 = regexThread.exec(currentUrl);
                 if (resultLinkWebRegex1) {
                     var wapNewLinkWeb1 = wapLinkTpl.replace('TidDummy', resultLinkWebRegex1[1]);
+                    if (isSTg) {
+                        wapNewLinkWeb1 = wapLinkTpl2.replace('TidDummy', resultLinkWebRegex1[1]);
+                    }
                     var newSpanWeb1 = document.createElement('span');
                     newSpanWeb1.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLinkWeb1 + '" title="">(wap打开)</a>&nbsp;';
                     titleEl.append(newSpanWeb1);
@@ -346,6 +362,9 @@
                 const resultLinkWebRegex2 = regexThread2.exec(currentUrl);
                 if (resultLinkWebRegex2) {
                     var wapNewLinkWeb2 = wapLinkTpl.replace('TidDummy', resultLinkWebRegex2[1]);
+                    if (isSTg) {
+                        wapNewLinkWeb2 = wapLinkTpl2.replace('TidDummy', resultLinkWebRegex2[1]);
+                    }
                     var newSpanWeb2 = document.createElement('span');
                     newSpanWeb2.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLinkWeb2 + '" title="">(wap打开)</a>&nbsp;';
                     titleEl.append(newSpanWeb2);

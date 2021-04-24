@@ -336,18 +336,18 @@
                     const tag = tags[i];
                     var href = tag.href || '';
                     const resultLinkRegex = regexThread.exec(href)
-                    console.log(resultLinkRegex)
-                        // if (resultLinkRegex) {
-                        //     var wapNewLink1 = wapLinkTpl.replace('TidDummy', resultLinkRegex[1]);
-                        //     if (isSTg) {
-                        //         wapNewLink1 = wapLinkTpl2.replace('TidDummy', resultLinkRegex[1]);
-                        //     }
-                        //     var newSpan1 = document.createElement('span');
-                        //     newSpan1.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLink1 + '" title="">(wap打开)</a>&nbsp;';
-                        //     tag.parentNode.insertBefore(newSpan1, tag.nextSibling);
+
+                    // if (resultLinkRegex) {
+                    //     var wapNewLink1 = wapLinkTpl.replace('TidDummy', resultLinkRegex[1]);
+                    //     if (isSTg) {
+                    //         wapNewLink1 = wapLinkTpl2.replace('TidDummy', resultLinkRegex[1]);
+                    //     }
+                    //     var newSpan1 = document.createElement('span');
+                    //     newSpan1.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLink1 + '" title="">(wap打开)</a>&nbsp;';
+                    //     tag.parentNode.insertBefore(newSpan1, tag.nextSibling);
 
                     //     var wapNewLinkS1 = wapLinkTplS3.replace('TidDummy', resultLinkRegex[1]);
-                    //     console.log(11)
+
                     //     if (isSTg) {
                     //         var newSpanS1 = document.createElement('span');
                     //         newSpanS1.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLinkS1 + '" title="">(web打开)</a>&nbsp;';
@@ -357,7 +357,6 @@
                     // }
 
                     const resultLinkRegex2 = regexThread2.exec(href)
-                    console.log(resultLinkRegex2)
                     if (resultLinkRegex2) {
                         var wapNewLink2 = wapLinkTpl.replace('TidDummy', resultLinkRegex2[1]);
                         if (isSTg) {
@@ -368,7 +367,7 @@
                         tag.parentNode.insertBefore(newSpan2, tag.nextSibling);
 
                         var wapNewLinkS2 = wapLinkTplS3.replace('TidDummy', resultLinkRegex2[1]);
-                        console.log(22)
+
                         if (isSTg) {
                             var newSpanS2 = document.createElement('span');
                             newSpanS2.innerHTML = '&nbsp;&nbsp;<a href="' + wapNewLinkS2 + '" title="">(web打开)</a>&nbsp;';
