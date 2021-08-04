@@ -60,7 +60,9 @@
             isSTg = true;
         }
 
-
+        if (currentUrl.indexOf('bbs.tgfcer.com') > -1) {
+            isSTg = false;
+        }
 
         if (currentUrl.indexOf('forum') > -1) {
             pageType = 1; // list page
@@ -321,13 +323,16 @@
         // 给 WEB 帖子页面 帖子标题 增加 Wap打开 帖子链接
 
         // https://club.tgfcer.com/viewthread.php?tid=8318646&extra=&page=3
-        var regexThread = /https:\/\/(?:club|s)\.tgfcer\.com\/thread-([\d]+)-.+html/ig;
-        var regexThread2 = /https:\/\/(?:club|s)\.tgfcer\.com\/viewthread\.php\?tid=([\d]+)/ig;
+        // https://bbs.tgfcer.com/thread-8349355-2-1.html
 
-        var wapLinkTpl = 'https://wap.tgfcer.com/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0';
-        var wapLinkTpl2 = 'https://s.tgfcer.com/wap/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0';
+        var regexThread = /https:\/\/(?:club|s|bbs)\.tgfcer\.com\/thread-([\d]+)-.+html/ig;
+        var regexThread2 = /https:\/\/(?:club|s|bbs)\.tgfcer\.com\/viewthread\.php\?tid=([\d]+)/ig;
+
+        var wapLinkTpl = 'https://wap.tgfcer.com/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0&pic=1';
+        var wapLinkTpl2 = 'https://s.tgfcer.com/wap/index.php?action=thread&tid=TidDummy&sid=&vt=1&tp=100&pp=100&sc=0&vf=0&sm=0&iam=&css=&verify=&fontsize=0&pic=1';
         var wapLinkTplS3 = 'https://s.tgfcer.com/thread-TidDummy-1-1.html';
 
+        console.log("pageType:", pageType, isSTg)
         if (pageType === 2) {
             if (isWap) {
 
