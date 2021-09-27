@@ -144,6 +144,7 @@
                     getBlockedUserList: function() {
                         let apiUrl = "/api/tgfcer/user/count/" + (this.currentPageNo || 1);
                         $.ajax(apiUrl).done((data) => {
+                                userList = []
                                 if (Array.isArray(data.data)) {
                                     data.data.forEach((user) => {
                                         user.checked = true
@@ -151,6 +152,7 @@
                                     })
                                 }
 
+                                this.users = [];
                                 this.users = userList;
 
                                 // console.log('jQuery Ajax success!')
