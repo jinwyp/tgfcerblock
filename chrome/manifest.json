@@ -29,7 +29,9 @@
             "https://wap.tgfcer.com/index.php",
             "https://wap.tgfcer.com/index.php?action=home*",
             "https://wap.tgfcer.com/index.php?action=thread*",
-            "https://wap.tgfcer.com/index.php?action=forum*"
+            "https://wap.tgfcer.com/index.php?action=forum*",
+            "https://*.m.jd.com/*"
+
         ],
         "js": ["jquery-3.5.1.min.js", "content.js"]
     }],
@@ -46,12 +48,13 @@
     "background": {
         "scripts": ["background.js"]
     },
-    "options_page": "options.html",
+    "options_page": "tab_options.html",
     "permissions": [
         "activeTab", "tabs", "storage",
         "https://*.tgfcer.com/*",
         "https://*.jscool.net/*",
         "http://*.jscool.net/*",
-        "http://*.localhost/*"
+        "http://*.localhost/*",
+        "https://*.jd.com/*"
     ]
 }

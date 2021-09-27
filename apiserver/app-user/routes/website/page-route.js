@@ -13,7 +13,7 @@ const router = require('koa-router')()
 
 async function userListBlocked(ctx, next) {
 
-    await ctx.render('tgfcer/userlist', { page : {title : 'Tgfcer blocked user list'} });
+    await ctx.render('tgfcer/userlist', { page: { title: 'Tgfcer blocked user list' } });
 }
 
 
@@ -26,4 +26,3 @@ router.get('/tgfcer', userListBlocked)
 
 
 module.exports = router
-

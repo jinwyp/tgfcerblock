@@ -10,7 +10,7 @@ const userController = require('../../controllers/api/tgfceruser')
 
 
 router.post('/tgfcer/user/blocked', userController.createNewBlockedUser)
-router.get('/tgfcer/user/count', userController.getBlockedUserList)
+router.get('/tgfcer/user/count/:pageno', userController.getBlockedUserList)
 
 
 router.get('/tgfcer/user/favorite', userController.getUserFavoriteLinkList)
@@ -26,4 +26,3 @@ router.delete('/tgfcer/user/favorite/:uuid', userController.delUserFavoriteLink)
 
 
 module.exports = router
-

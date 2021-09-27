@@ -1,85 +1,98 @@
 <!doctype html>
 <html lang="zh-cmn-Hans">
+
 <head>
     <%- include ./header.ejs %>
 
-    <style>
-        [v-cloak] {
-            display: none;
-        }
-
-        .mainbox {
-            margin: 10px 5px;
-        }
-
-        .mainbox h5 {
-            margin: 20px 0px;
-        }
-
-    </style>
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+            
+            .mainbox {
+                margin: 10px 5px;
+            }
+            
+            .mainbox h5 {
+                margin: 20px 0px;
+            }
+        </style>
 </head>
+
 <body>
 
-<div class="container-fluid">
-    <div class="row" >
+    <div class="container-fluid">
+        <div class="row">
 
-        <main role="main" class="col-md-12" id="vueapp">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                <h4 >TGFCER 被屏蔽用户排行榜</h4>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group mr-2">
-<!--                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#exampleModal" data-toggle="modal" @click="exportData">导出</button>
+            <main role="main" class="col-md-12" id="vueapp">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+                    <h4>TGFCER 被屏蔽用户排行榜</h4>
+
+                    <ul class="pagination">
+                        <li class="page-item" @click="previousPage"><a class="page-link" href="#">上一页</a></li>
+                        <li class="page-item" @click="nextPage"><a class="page-link" href="#">下一页</a></li>
+                        <li class="page-item mr-3"><a class="page-link" href="#">当前第{{currentPageNo}}页</a></li>
+                    </ul>
+
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group mr-2">
+                            <!--                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#exampleModal" data-toggle="modal" @click="exportData">导出</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="table-responsive" v-cloak>
-                <table class="table table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>姓名</th>
-                            <th>被屏蔽总次数</th>
-                            <th>备注</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(user, index) in users" :key="user.uuid">
-                            <td><input type="checkbox" v-model="user.checked"></td>
-                            <td>{{user.blockedUsername}}</td>
-                            <td>{{user.count}}</td>
-                            <td>{{user.remark}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-responsive" v-cloak>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>姓名</th>
+                                <th>被屏蔽总次数</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(user, index) in users" :key="user.uuid">
+                                <td><input type="checkbox" v-model="user.checked"></td>
+                                <td>{{user.blockedUsername}}</td>
+                                <td>{{user.count}}</td>
+                                <td>{{user.remark}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination">
+                        <li class="page-item" @click="previousPage"><a class="page-link" href="#">上一页</a></li>
+                        <li class="page-item" @click="nextPage"><a class="page-link" href="#">下一页</a></li>
+                        <li class="page-item mr-3"><a class="page-link" href="#">当前第{{currentPageNo}}页</a></li>
+                    </ul>
+                </div>
 
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">请复制用户名称用于导入</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">请复制用户名称用于导入</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        </div>
-                        <div class="modal-body">
-                            {{nameListText}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
+                            </div>
+                            <div class="modal-body">
+                                {{nameListText}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </main>
+            </main>
+        </div>
     </div>
-</div>
 
 
 
@@ -89,68 +102,82 @@
 
 
 
-<%- include ./bottomscript.ejs %>
+    <%- include ./bottomscript.ejs %>
 
 
-<script type="text/javascript">
+        <script type="text/javascript">
+            var userList = []
+            var userListName = []
 
-    var userList = []
-    var userListName = []
+            var app = new Vue({
+                el: '#vueapp',
+                data: {
+                    message: 'Hello Vue!',
+                    users: [],
+                    nameListText: '',
+                    currentPageNo: 1
+                },
+                mounted() {
+                    this.getBlockedUserList();
 
-    var app = new Vue({
-        el: '#vueapp',
-        data: {
-            message: 'Hello Vue!',
-            users : [],
-            nameListText : ''
-        },
-        mounted () {
-            $.ajax( "/api/tgfcer/user/count" )
-                .done( (data) => {
-                    if (Array.isArray(data.data)) {
-                        data.data.forEach ( (user) => {
-                            user.checked = true
-                            userList.push(user)
-                        })
-                    }
+                },
+                methods: {
+                    exportData: function(event) {
+                        // `this` inside methods points to the Vue instance
+                        // `event` is the native DOM event
+                        userListName = []
 
-                    this.users = userList;
-
-                    // console.log('jQuery Ajax success!')
-                })
-                .fail( () => {
-                    console.log('jQuery Ajax error!')
-                })
-                .always( () => {
-                    // console.log('jQuery Ajax complete!')
-                });
-        },
-        methods: {
-            exportData: function (event) {
-                // `this` inside methods points to the Vue instance
-                // `event` is the native DOM event
-                userListName = []
-
-                if (Array.isArray(this.users)) {
-                    this.users.forEach(user => {
-                        // console.log(user.checked);
-                        if (user.checked) {
-                            userListName.push(user.blockedUsername)
+                        if (Array.isArray(this.users)) {
+                            this.users.forEach(user => {
+                                // console.log(user.checked);
+                                if (user.checked) {
+                                    userListName.push(user.blockedUsername)
+                                }
+                            });
                         }
-                    });
+                        // console.log(userListName);
+                        this.nameListText = userListName.join(',');
+
+                    },
+
+                    getBlockedUserList: () => {
+                        let apiUrl = "/api/tgfcer/user/count/" + this.currentPageNo;
+                        $.ajax(apiUrl).done((data) => {
+                                if (Array.isArray(data.data)) {
+                                    data.data.forEach((user) => {
+                                        user.checked = true
+                                        userList.push(user)
+                                    })
+                                }
+
+                                this.users = userList;
+
+                                // console.log('jQuery Ajax success!')
+                            })
+                            .fail(() => {
+                                console.log('jQuery Ajax error!')
+                            })
+                            .always(() => {
+                                // console.log('jQuery Ajax complete!')
+                            });
+                    },
+
+                    previousPage: () => {
+                        this.currentPageNo = this.currentPageNo - 1
+                        if (this.currentPageNo <= 1) {
+                            this.currentPageNo = 1;
+                        }
+                        this.getBlockedUserList();
+                    },
+                    nextPage: () => {
+                        this.currentPageNo = this.currentPageNo + 1
+
+                        this.getBlockedUserList();
+                    },
                 }
-                // console.log(userListName);
-                this.nameListText = userListName.join(',');
-
-            }
-        }
-    })
-
-
-
-
-</script>
+            })
+        </script>
 
 </body>
-</html>
 
+</html>

@@ -116,10 +116,12 @@ exports.MBlockUserCountFindOneP = async function(query) {
     });
 }
 
-exports.MBlockUserCountFindP = async function(query) {
+exports.MBlockUserCountFindP = async function(query, pagination) {
     return new Promise((resolve, reject) => {
         query = query || {}
-        MBlockUserCount.find(query).sort({ count: -1 }).exec(function(err, docs) {
+        pagination = pagination || { pageNo: 1, pageSize: 100 }
+        const skipNo = (pagination.pageNo - 1) * pagination.pageSize
+        MBlockUserCount.find(query).sort({ count: -1 }).skip(skipNo).limit(pagination.pageSize).exec(function(err, docs) {
             if (err) return reject(err);
             return resolve(docs);
         });

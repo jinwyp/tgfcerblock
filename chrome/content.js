@@ -23,7 +23,7 @@
 
     function getChromeData() {
         chrome.storage.sync.get(null, function(result) {
-            console.log(`Chrome.storage get currently is `, result);
+            console.log(`===== Tgfcer Extensions Chrome sync storage : `, result);
 
             if (result) {
                 // callback (null, result[key])
@@ -159,7 +159,7 @@
 
     function getLocalStorage() {
         chrome.storage.local.get(null, function(result) {
-            console.log('Chrome local storage get data: ', result)
+            console.log('===== Tgfcer Extensions Chrome local storage get data: ', result)
             if (result && result.currentUsername) {
                 currentUsername = result.currentUsername.trim();
             }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="./bootstrap.min.css">
+
+    <title>JD Cookie List</title>
+
+    <style>
+        .main {
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid main">
+
+        <h4>京东 Cookie 列表</h4>
+
+
+        <form id="formType" class="mt-4 ">
+            <div class="form-group row">
+                <label for="input-searchtext" class="col-sm-1">标题:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="input-searchtext" placeholder="请填写帖子标题关键字">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="searchtag" class="col-sm-1">分类:</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="searchtag"></select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-outline-info" id="btn-search">搜索帖子</button>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-outline-danger" id="btn-cleartag">清空分类</button>
+                </div>
+            </div>
+
+        </form>
+
+
+        <ul class="list-group" id="post-list">
+            <li class="list-group-item"> 暂无 </li>
+        </ul>
+
+
+    </div>
+
+
+    <script src="./jquery-3.5.1.min.js"></script>
+    <script src="./tabjs_jdcookie.js"></script>
+
+
+</body>
+
+</html>
