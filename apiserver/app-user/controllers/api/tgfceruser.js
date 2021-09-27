@@ -24,9 +24,9 @@ exports.getBlockedUserList = async(ctx, next) => {
     // console.log('ctx.params.id', ctx.params.id)
     // throw new GValidationError('XXXName', 'xxxField');
 
-    const body = ctx.request.body
+    let body = ctx.request.body
         // GDataChecker.token(body.token)
-    const pagination = pagination || { pageNo: Number(ctx.params.pageno), pageSize: 100 }
+    let pagination = { pageNo: Number(ctx.params.pageno), pageSize: 100 }
 
     ctx.body = await MBlockUserCountFindP({}, pagination)
 }
