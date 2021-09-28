@@ -217,6 +217,17 @@ let allCookies = {
 
 
 
+function delegateSelectLi() {
+
+    divListContent.addEventListener("click", function(e) {
+        if (e.target && e.target.nodeName == "LI") {
+            // List item found!  Output the ID!
+            console.log("List item ", e.target.id, " was clicked!");
+            copyTextToClipboard(e.target.innerHTML)
+        }
+    });
+}
+
 async function showCookieList(list) {
     let inputFilterText = document.querySelector("#input-searchtext").value
 
@@ -267,7 +278,6 @@ async function onClickSearchButton(event3) {
     modifyText(spanContentPtPin, "pt_pin=" + allCookies.objectCookie.pt_pin + ";")
     modifyText(spanContentPtKeyAndPin, "pt_key=" + allCookies.objectCookie.pt_key + ";" + "pt_pin=" + allCookies.objectCookie.pt_pin + ";")
 
-    // text2clip(stringCookie)
 }
 
 
@@ -298,5 +308,5 @@ spanContentPtPin.addEventListener('click', onClickSpan3, false);
 
 
 
-
-// getChromeData()
+delegateSelectLi()
+    // getChromeData()
