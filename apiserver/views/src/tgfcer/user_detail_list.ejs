@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <%- include ./header.ejs %>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        .mainbox {
+            margin: 10px 5px;
+        }
+
+        .mainbox h5 {
+            margin: 20px 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <main role="main" class="col-md-12" id="vueapp">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+                <h4>TGFCER 被屏蔽用户明细</h4>
+
+                <ul class="pagination v-cloak">
+                    <li class="page-item" @click="previousPage"><a class="page-link" href="#">上一页</a></li>
+                    <li class="page-item" @click="nextPage"><a class="page-link" href="#">下一页</a></li>
+                    <li class="page-item mr-3"><a class="page-link" href="#">当前第{{currentPageNo}}页</a></li>
+                </ul>
+
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <!--                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-target="#exampleModal" data-toggle="modal" @click="exportData">导出</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="formType" class="mt-2 ">
+
+                <div class="form-group row">
+                    <label for="input-searchtext" class="col-sm-2">请输入屏蔽的用户名:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" v-model="searchBlockedUsername">
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-outline-info" @click="getBlockedUserList">搜索</button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="table-responsive" v-cloak>
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>时间</th>
+                        <th>ID</th>
+                        <th>提交者用户名</th>
+                        <th>被屏蔽用户名</th>
+                        <th>备注</th>
+                        <th>userAgent</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(user, index) in users" :key="user.uuid">
+                        <td><input type="checkbox" v-model="user.checked"></td>
+                        <td>{{user.createTime}}</td>
+                        <td>{{user.localId}}</td>
+                        <td>{{user.submitUsername}}</td>
+                        <td>{{user.blockedUsername}}</td>
+                        <td>{{user.remark}}</td>
+                        <td>{{user.userAgent}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <ul class="pagination v-cloak">
+                    <li class="page-item" @click="previousPage"><a class="page-link" href="#">上一页</a></li>
+                    <li class="page-item" @click="nextPage"><a class="page-link" href="#">下一页</a></li>
+                    <li class="page-item mr-3"><a class="page-link" href="#">当前第{{currentPageNo}}页</a></li>
+                </ul>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">请复制用户名称用于导入</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{nameListText}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+
+
+<%- include ./bottomscript.ejs %>
+
+
+<script>
+    var userList = []
+    var userListName = []
+
+    var app = new Vue({
+        el: '#vueapp',
+        data: {
+            message: 'Hello Vue!',
+            users: [],
+            nameListText: '',
+            currentPageNo: 1,
+            searchBlockedUsername:''
+        },
+        mounted() {
+            this.getBlockedUserList();
+        },
+        methods: {
+            exportData: function(event) {
+                // `this` inside methods points to the Vue instance
+                // `event` is the native DOM event
+                userListName = []
+
+                if (Array.isArray(this.users)) {
+                    this.users.forEach(user => {
+                        // console.log(user.checked);
+                        if (user.checked) {
+                            userListName.push(user.blockedUsername)
+                        }
+                    });
+                }
+                // console.log(userListName);
+                this.nameListText = userListName.join(',');
+
+            },
+
+            getBlockedUserList: function() {
+                let queryString = ''
+                if (this.searchBlockedUsername) {
+                    queryString = "?blockedUsername=" + this.searchBlockedUsername
+                }
+                let apiUrl = "/api/tgfcer/user/detail/" + (this.currentPageNo || 1) + queryString;
+                $.ajax(apiUrl).done((data) => {
+                    userList = []
+                    if (Array.isArray(data.data)) {
+                        data.data.forEach((user) => {
+                            user.checked = true
+                            userList.push(user)
+                        })
+                    }
+
+                    this.users = [];
+                    this.users = userList;
+
+                    // console.log('jQuery Ajax success!')
+                })
+                    .fail(() => {
+                        console.log('jQuery Ajax error!')
+                    })
+                    .always(() => {
+                        // console.log('jQuery Ajax complete!')
+                    });
+            },
+
+            previousPage: function() {
+                this.currentPageNo = this.currentPageNo - 1
+                if (this.currentPageNo <= 1) {
+                    this.currentPageNo = 1;
+                }
+                this.getBlockedUserList();
+            },
+
+            nextPage: function() {
+                this.currentPageNo = this.currentPageNo + 1
+
+                this.getBlockedUserList();
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>

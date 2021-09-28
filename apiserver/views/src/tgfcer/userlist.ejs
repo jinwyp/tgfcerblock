@@ -47,7 +47,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>姓名</th>
+                                <th>用户名</th>
                                 <th>被屏蔽总次数</th>
                                 <th>备注</th>
                             </tr>
@@ -98,89 +98,83 @@
 
 
 
+<%- include ./bottomscript.ejs %>
 
 
+    <script type="text/javascript">
+        var userList = []
+        var userListName = []
 
+        var app = new Vue({
+            el: '#vueapp',
+            data: {
+                message: 'Hello Vue!',
+                users: [],
+                nameListText: '',
+                currentPageNo: 1
+            },
+            mounted() {
+                this.getBlockedUserList();
+            },
+            methods: {
+                exportData: function(event) {
+                    // `this` inside methods points to the Vue instance
+                    // `event` is the native DOM event
+                    userListName = []
 
+                    if (Array.isArray(this.users)) {
+                        this.users.forEach(user => {
+                            // console.log(user.checked);
+                            if (user.checked) {
+                                userListName.push(user.blockedUsername)
+                            }
+                        });
+                    }
+                    // console.log(userListName);
+                    this.nameListText = userListName.join(',');
 
-
-    <%- include ./bottomscript.ejs %>
-
-
-        <script type="text/javascript">
-            var userList = []
-            var userListName = []
-
-            var app = new Vue({
-                el: '#vueapp',
-                data: {
-                    message: 'Hello Vue!',
-                    users: [],
-                    nameListText: '',
-                    currentPageNo: 1
                 },
-                mounted() {
+
+                getBlockedUserList: function() {
+                    let apiUrl = "/api/tgfcer/user/count/" + (this.currentPageNo || 1);
+                    $.ajax(apiUrl).done((data) => {
+                            userList = []
+                            if (Array.isArray(data.data)) {
+                                data.data.forEach((user) => {
+                                    user.checked = true
+                                    userList.push(user)
+                                })
+                            }
+
+                            this.users = [];
+                            this.users = userList;
+
+                            // console.log('jQuery Ajax success!')
+                        })
+                        .fail(() => {
+                            console.log('jQuery Ajax error!')
+                        })
+                        .always(() => {
+                            // console.log('jQuery Ajax complete!')
+                        });
+                },
+
+                previousPage: function() {
+                    this.currentPageNo = this.currentPageNo - 1
+                    if (this.currentPageNo <= 1) {
+                        this.currentPageNo = 1;
+                    }
                     this.getBlockedUserList();
                 },
-                methods: {
-                    exportData: function(event) {
-                        // `this` inside methods points to the Vue instance
-                        // `event` is the native DOM event
-                        userListName = []
 
-                        if (Array.isArray(this.users)) {
-                            this.users.forEach(user => {
-                                // console.log(user.checked);
-                                if (user.checked) {
-                                    userListName.push(user.blockedUsername)
-                                }
-                            });
-                        }
-                        // console.log(userListName);
-                        this.nameListText = userListName.join(',');
+                nextPage: function() {
+                    this.currentPageNo = this.currentPageNo + 1
 
-                    },
-
-                    getBlockedUserList: function() {
-                        let apiUrl = "/api/tgfcer/user/count/" + (this.currentPageNo || 1);
-                        $.ajax(apiUrl).done((data) => {
-                                userList = []
-                                if (Array.isArray(data.data)) {
-                                    data.data.forEach((user) => {
-                                        user.checked = true
-                                        userList.push(user)
-                                    })
-                                }
-
-                                this.users = [];
-                                this.users = userList;
-
-                                // console.log('jQuery Ajax success!')
-                            })
-                            .fail(() => {
-                                console.log('jQuery Ajax error!')
-                            })
-                            .always(() => {
-                                // console.log('jQuery Ajax complete!')
-                            });
-                    },
-
-                    previousPage: function() {
-                        this.currentPageNo = this.currentPageNo - 1
-                        if (this.currentPageNo <= 1) {
-                            this.currentPageNo = 1;
-                        }
-                        this.getBlockedUserList();
-                    },
-
-                    nextPage: function() {
-                        this.currentPageNo = this.currentPageNo + 1
-
-                        this.getBlockedUserList();
-                    }
+                    this.getBlockedUserList();
                 }
-            })
-        </script>
+            }
+        })
+    </script>
 
 </body>
 

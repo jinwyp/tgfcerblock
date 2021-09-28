@@ -4,17 +4,48 @@ const moment = require('moment');
 const {
     MBlockUsersCreateP,
     MBlockUsersFindOneP,
+    MBlockUserFindP,
+    MBlockUserFindCountP,
+
     MBlockUserCountFindOneP,
     MBlockUserCountCreateP,
     MBlockUserCountUpdateP,
     MBlockUserCountFindP,
+    MBlockUserCountFindCountP,
+
     MUserFavoriteLinkCreateP,
     MUserFavoriteLinkUpdateP,
     MUserFavoriteLinkDeleteP,
     MUserFavoriteLinkFindOneP,
-    MUserFavoriteLinkFindP
+    MUserFavoriteLinkFindP,
+
 } = require('../../service/tgfcerUserModel/userService')
 
+
+
+
+/**
+ * 获取屏蔽用户详细列表
+ */
+exports.getBlockedUserDetailList = async(ctx, next) => {
+    // console.log('ctx.params.id', ctx.params.id)
+    // throw new GValidationError('XXXName', 'xxxField');
+
+    let query = ctx.request.query
+    // GDataChecker.token(body.token)
+    let pagination = { pageNo: Number(ctx.params.pageno) || 1, pageSize: 100 }
+
+    let userList = await MBlockUserFindP(query, pagination)
+    let userListCount = await MBlockUserFindCountP(query)
+
+    ctx.body = userList
+    ctx.meta = {
+        total : userListCount,
+        pageSize : pagination.pageSize,
+        offset : 100 * pagination.pageNo,
+        pageNo : pagination.pageNo
+    }
+}
 
 
 /**
@@ -28,7 +59,16 @@ exports.getBlockedUserList = async(ctx, next) => {
         // GDataChecker.token(body.token)
     let pagination = { pageNo: Number(ctx.params.pageno), pageSize: 100 }
 
-    ctx.body = await MBlockUserCountFindP({}, pagination)
+    let userList = await MBlockUserCountFindP({}, pagination)
+    let userListCount = await MBlockUserCountFindCountP({})
+
+    ctx.body = userList
+    ctx.meta = {
+        total : userListCount,
+        pageSize : 100,
+        offset : 100 * ctx.params.pageno,
+        pageNo : Number(ctx.params.pageno)
+    }
 }
 
 

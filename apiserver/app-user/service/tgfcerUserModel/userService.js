@@ -65,6 +65,12 @@ exports.MUserFavoriteLinkFindP = async function(query) {
 }
 
 
+
+
+
+
+
+
 exports.MBlockUsersCreateP = async function(newBlockedUser) {
     return new Promise((resolve, reject) => {
 
@@ -83,6 +89,34 @@ exports.MBlockUsersFindOneP = async function(query) {
         });
     });
 }
+
+
+exports.MBlockUserFindP = async function(query, pagination) {
+    return new Promise((resolve, reject) => {
+        query = query || {}
+        pagination = pagination || { pageNo: 1, pageSize: 100 }
+        const skipNo = (pagination.pageNo - 1) * pagination.pageSize
+        MBlockUsers.find(query).skip(skipNo).limit(pagination.pageSize).exec(function(err, docs) {
+            if (err) return reject(err);
+            return resolve(docs);
+        });
+    });
+}
+
+exports.MBlockUserFindCountP = async function(query) {
+    return new Promise((resolve, reject) => {
+        query = query || {}
+        MBlockUsers.count(query).exec(function(err, docs) {
+            if (err) return reject(err);
+            return resolve(docs);
+        });
+    });
+}
+
+
+
+
+
 
 
 
@@ -121,7 +155,18 @@ exports.MBlockUserCountFindP = async function(query, pagination) {
         query = query || {}
         pagination = pagination || { pageNo: 1, pageSize: 100 }
         const skipNo = (pagination.pageNo - 1) * pagination.pageSize
+
         MBlockUserCount.find(query).sort({ count: -1 }).skip(skipNo).limit(pagination.pageSize).exec(function(err, docs) {
+            if (err) return reject(err);
+            return resolve(docs);
+        });
+    });
+}
+
+exports.MBlockUserCountFindCountP = async function(query) {
+    return new Promise((resolve, reject) => {
+        query = query || {}
+        MBlockUserCount.count(query).exec(function(err, docs) {
             if (err) return reject(err);
             return resolve(docs);
         });

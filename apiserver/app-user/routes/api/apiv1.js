@@ -11,6 +11,7 @@ const userController = require('../../controllers/api/tgfceruser')
 
 router.post('/tgfcer/user/blocked', userController.createNewBlockedUser)
 router.get('/tgfcer/user/count/:pageno', userController.getBlockedUserList)
+router.get('/tgfcer/user/detail/:pageno', userController.getBlockedUserDetailList)
 
 
 router.get('/tgfcer/user/favorite', userController.getUserFavoriteLinkList)
