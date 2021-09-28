@@ -1,7 +1,7 @@
 const buttonAbout = document.querySelector("#about");
 const buttonBlockOption = document.querySelector("#options");
 const buttonFavorite = document.querySelector("#favorite");
-const buttonJDCookie = document.querySelector("#jdcookie");
+
 
 
 
@@ -24,14 +24,6 @@ function onclickButtonFavorite(event1) {
 }
 
 
-
-function onclickButtonJDCookieShow(event1) {
-    // console.log("Good !")
-    alert('Good !')
-}
-
-
 buttonBlockOption.addEventListener('click', onclickButtonBlockOption, false);
 buttonFavorite.addEventListener('click', onclickButtonFavorite, false);
 buttonAbout.addEventListener('click', onclickButtonAbout, false);
-buttonJDCookie.addEventListener('click', onclickButtonJDCookieShow, false);

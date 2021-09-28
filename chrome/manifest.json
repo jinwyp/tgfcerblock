@@ -50,7 +50,7 @@
     },
     "options_page": "tab_options.html",
     "permissions": [
-        "activeTab", "tabs", "storage",
+        "activeTab", "tabs", "storage", "cookies",
         "https://*.tgfcer.com/*",
         "https://*.jscool.net/*",
         "http://*.jscool.net/*",

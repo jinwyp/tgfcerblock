@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <title>Popup</title>
+
+
+    <style>
+        .main {
+            width: 900px;
+            margin: 6px 0px;
+        }
+        
+        .main div {
+            font-size: 14px;
+        }
+        
+        .underline {
+            margin: 5px 0px;
+            height: 1px;
+            background-color: #cccccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid main">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>Cookie 列表 </h4>
+            </div>
+            <div class="col-sm-4">
+                <h5>请先登录 <a href="https://m.jd.com/" target="_blank">https://m.jd.com/</a> </h5>
+            </div>
+        </div>
+
+        <form id="formType" class="mt-2 ">
+
+            <div class="form-group row">
+                <label for="input-searchtext" class="col-sm-3">请输入京东的域名:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="input-domaintext" placeholder="https://home.m.jd.com">
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-outline-info" id="btn-search">显示Cookie</button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title mb-3">请复制以下Cookie: pt_key pt_pin (点击文字即可复制到剪贴板)</h5>
+
+                <p class="card-text" id="jd_pt_key_pin">pt_key and pt_pin 暂无</p>
+                <p class="card-text" id="jd_pt_key">pt_key 暂无</p>
+                <p class="card-text" id="jd_pt_pin">pt_pin 暂无</p>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body mb-1">
+                <input type="text" class="form-control" id="input-searchtext" placeholder="请填入筛选的Cookie Name 名称">
+            </div>
+            <ul class="list-group" id="cookie-list">
+                <li class="list-group-item"> 暂无 </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
