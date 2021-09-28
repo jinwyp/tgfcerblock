@@ -138,6 +138,11 @@ function showList(uuid) {
 
                 userFavoriteLinkList.forEach((post) => {
 
+                    if (post.threadTitle.indexOf('灌水') > -1){
+                        post.url = post.url.replace('club.tgfcer.com', 's.tgfcer.com')
+                    }else{
+                        post.url = post.url.replace('club.tgfcer.com', 'bbs.tgfcer.com')
+                    }
                     if (uuid && uuid === post.uuid) {
                         let tempOptonsHtml = `<option value="">请选择分类</option>`
                         tagList.forEach((tag) => {

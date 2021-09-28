@@ -142,6 +142,10 @@
                             if (Array.isArray(data.data)) {
                                 data.data.forEach((user) => {
                                     user.checked = true
+
+                                    if (user.remark && user.remark.indexOf(',') > -1){
+                                        user.remark = user.remark.split(',').join(',  ')
+                                    }
                                     userList.push(user)
                                 })
                             }
