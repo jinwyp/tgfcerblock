@@ -46,7 +46,7 @@ module.exports = {
       user : "root",
       host : [{
         host : "95.169.17.157",
-        port: "28986"
+        port: "28983"
       }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
@@ -59,7 +59,7 @@ module.exports = {
       user : "root",
       host : [{
         host : "95.169.17.157",
-        port: "28986"
+        port: "28983"
       }],
       ref  : "origin/master",
       repo : "git@github.com:jinwyp/tgfcerblock.git",
