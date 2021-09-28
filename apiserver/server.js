@@ -57,7 +57,7 @@ app.use(visitor())     // 获取visitor UUID
 // 静态文件夹
 const staticFilePath = path.join(__dirname, './public');
 app.use(koaStaticServer(staticFilePath, {
-    maxage : 1000 * 60 * 60 * 24 * 365,
+    maxage : 1000 * 60 * 60 * 24 * 3,
     hidden : false, // 默认不返回隐藏文件
     gzip : false
 }))
