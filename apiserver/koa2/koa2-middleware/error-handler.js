@@ -1,5 +1,6 @@
 const debug  = require('debug')('koa2-user:error');
 const debug400  = require('debug')('koa2-user:error400');
+const moment = require('moment');
 
 
 
@@ -38,8 +39,12 @@ function checkIsXHR (req){
 function serverLog (error, ctx, isAppOnError){
     let errorText = ''
 
+    let nowTime = moment().format("YYYY-DD-MM HH:mm:ss");
+
     if (isAppOnError) {
-        errorText = '===== KOA2 App On Error '
+        errorText = '+++ ' + nowTime + ' ===== KOA2 App On Error '
+    } else {
+        errorText = '+++ ' + nowTime + ' '
     }
 
     if (ctx.status >= 500){
@@ -47,7 +52,6 @@ function serverLog (error, ctx, isAppOnError){
         debug(errorText + '===== Server 5XX UncaughtException : \n', error, '\n ----- Server Koa2 Context \n: ', ctx);
 
     }else if (ctx.status >= 400){
-
         if (ctx.status === 404) {
             // GLogger.error(errorText + '===== 404 Page Not Found : ', error, '\n ----- Server Koa2 Context : ', ctx)
             debug400(errorText + '===== Server 404 Page Not Found : \n', error, '\n ----- Server Koa2 Context : \n', ctx)
@@ -140,7 +144,7 @@ function productionErrorHandler (app, options){
                     ctx.body.error.stack = ''
                 }
 
-                console.log('==================== ctx.status', ctx.status)
+                console.log('========== XHR request end ==========  ctx.status', ctx.status)
 
             }else {
 
