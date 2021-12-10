@@ -36,7 +36,7 @@ module.exports = {
     },
 
     // 应用目录配置
-    pathLogs : path.join(__dirname, "../../logs/"),
+    pathLogs : path.join(__dirname, "../../logs"),
 
 
     // 文件目录配置
