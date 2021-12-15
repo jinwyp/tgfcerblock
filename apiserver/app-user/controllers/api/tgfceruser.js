@@ -42,7 +42,7 @@ exports.getBlockedUserDetailList = async(ctx, next) => {
     ctx.meta = {
         total : userListCount,
         pageSize : pagination.pageSize,
-        offset : 100 * pagination.pageNo,
+        offset : pagination.pageSize * (pagination.pageNo - 1),
         pageNo : pagination.pageNo
     }
 }
@@ -65,9 +65,9 @@ exports.getBlockedUserList = async(ctx, next) => {
     ctx.body = userList
     ctx.meta = {
         total : userListCount,
-        pageSize : 100,
-        offset : 100 * ctx.params.pageno,
-        pageNo : Number(ctx.params.pageno)
+        pageSize : pagination.pageSize,
+        offset : pagination.pageSize * (pagination.pageNo - 1),
+        pageNo : pagination.pageNo
     }
 }
 

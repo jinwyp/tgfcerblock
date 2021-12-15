@@ -111,7 +111,8 @@
                 message: 'Hello Vue!',
                 users: [],
                 nameListText: '',
-                currentPageNo: 1
+                currentPageNo: 1,
+                totalPages: 1
             },
             mounted() {
                 this.getBlockedUserList();
@@ -132,35 +133,36 @@
                     }
                     // console.log(userListName);
                     this.nameListText = userListName.join(',');
-
                 },
 
                 getBlockedUserList: function() {
                     let apiUrl = "/api/tgfcer/user/count/" + (this.currentPageNo || 1);
                     $.ajax(apiUrl).done((data) => {
-                            userList = []
-                            if (Array.isArray(data.data)) {
-                                data.data.forEach((user) => {
-                                    user.checked = true
+                        userList = [];
 
-                                    if (user.remark && user.remark.indexOf(',') > -1){
-                                        user.remark = user.remark.split(',').join(',  ')
-                                    }
-                                    userList.push(user)
-                                })
-                            }
+                        if (Array.isArray(data.data)) {
+                            data.data.forEach((user) => {
+                                user.checked = true
 
-                            this.users = [];
-                            this.users = userList;
+                                if (user.remark && user.remark.indexOf(',') > -1){
+                                    user.remark = user.remark.split(',').join(',  ')
+                                }
+                                userList.push(user)
+                            })
+                        }
 
-                            // console.log('jQuery Ajax success!')
-                        })
-                        .fail(() => {
-                            console.log('jQuery Ajax error!')
-                        })
-                        .always(() => {
-                            // console.log('jQuery Ajax complete!')
-                        });
+                        this.users = [];
+                        this.users = userList;
+                        this.totalPages = data.meta.totalPages;
+
+                        // console.log('jQuery Ajax success!')
+                    })
+                    .fail(() => {
+                        console.log('jQuery Ajax error!')
+                    })
+                    .always(() => {
+                        // console.log('jQuery Ajax complete!')
+                    });
                 },
 
                 previousPage: function() {
@@ -173,7 +175,9 @@
 
                 nextPage: function() {
                     this.currentPageNo = this.currentPageNo + 1
-
+                    if (this.currentPageNo > this.totalPages) {
+                        this.currentPageNo = this.totalPages;
+                    }
                     this.getBlockedUserList();
                 }
             }
