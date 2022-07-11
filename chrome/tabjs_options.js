@@ -25,7 +25,7 @@ const userListElement = document.querySelector("#user-list");
 
 
 const isDebug = false;
-let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
+let apiPrefix = isDebug ? 'http://localhost:8088' : 'https://tgfcer.jscool.net'
 
 let autoIncrement = 10000;
 let currentUsername = '';

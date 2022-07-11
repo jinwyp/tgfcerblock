@@ -5,7 +5,7 @@ const selectSearchElement = document.querySelector("#searchtag");
 
 
 const isDebug = false;
-let apiPrefix = isDebug ? 'http://localhost:8088' : 'http://tgfcer.jscool.net'
+let apiPrefix = isDebug ? 'http://localhost:8088' : 'https://tgfcer.jscool.net'
 let currentUsername = '';
 let currentUserId = '';
 let userFavoriteLinkList = [];
@@ -138,9 +138,9 @@ function showList(uuid) {
 
                 userFavoriteLinkList.forEach((post) => {
 
-                    if (post.threadTitle.indexOf('灌水') > -1){
+                    if (post.threadTitle.indexOf('灌水') > -1) {
                         post.url = post.url.replace('club.tgfcer.com', 's.tgfcer.com')
-                    }else{
+                    } else {
                         post.url = post.url.replace('club.tgfcer.com', 'bbs.tgfcer.com')
                     }
                     if (uuid && uuid === post.uuid) {

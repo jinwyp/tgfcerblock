@@ -1,6 +1,3 @@
-
-
-
 // console.log("Chrome Extension background script running!")
 
 
@@ -15,7 +12,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 
 
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.action.onClicked.addListener(function(tab) {
     chrome.tabs.create({url: 'popup.html'})
 
     chrome.runtime.openOptionsPage(()=>{console.log("Chrome Extension Open Options page")});
@@ -33,7 +30,7 @@ chrome.tabs.onActivated.addListener(  (currentTab) => {
         console.log(regex1.test(currentTabInfo.url));
         if (regex1.test(currentTabInfo.url) || regex2.test(currentTabInfo.url)) {
 
-            chrome.tabs.executeScript(null,{
+            chrome.scripting.executeScript(null,{
                 file: "./content.js"
             }, ()=> {console.log("Chrome Extension Script Inject Programmatically! ")});
 
@@ -44,5 +41,3 @@ chrome.tabs.onActivated.addListener(  (currentTab) => {
 
 
 */
-
-

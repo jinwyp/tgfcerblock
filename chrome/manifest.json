@@ -1,7 +1,7 @@
 {
     "name": "Tgfcer block user",
     "version": "1.0",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "icons": {
         "16": "images/icon64.png",
         "32": "images/icon64.png",
@@ -35,7 +35,7 @@
         ],
         "js": ["jquery-3.5.1.min.js", "content.js"]
     }],
-    "browser_action": {
+    "action": {
         "default_title": "TGFCER Block User",
         "default_popup": "popup.html",
         "default_icon": {
@@ -46,15 +46,20 @@
         }
     },
     "background": {
-        "scripts": ["background.js"]
+        "service_worker": "background.js"
     },
     "options_page": "tab_options.html",
     "permissions": [
-        "activeTab", "tabs", "storage", "cookies",
+        "activeTab", "tabs", "storage", "cookies", "scripting"
+    ],
+    "host_permissions": [
         "https://*.tgfcer.com/*",
         "https://*.jscool.net/*",
         "http://*.jscool.net/*",
         "http://*.localhost/*",
         "https://*.jd.com/*"
+    ],
+    "optional_host_permissions": [
+        "*://*/*"
     ]
 }
